@@ -15,10 +15,12 @@ class Migration_Create_File extends CI_Migration {
             {$prefix}_size INT(10) NOT NULL ,
             {$prefix}_mime VARCHAR(10) NOT NULL ,
             {$prefix}_task_id INT(14) UNSIGNED NOT NULL ,
+            {$prefix}_creator_id INT(14) UNSIGNED NOT NULL ,
             {$prefix}_creator_ip VARCHAR(15) NOT NULL ,
+            {$prefix}_created_time DATETIME NOT NULL ,
             CONSTRAINT file_pk PRIMARY KEY ({$prefix}_id),
-            CONSTRAINT file_fk_task FOREIGN KEY ({$prefix}_task_id) REFERENCES {$this->db->dbprefix("task")} (tsk_id) ON DELETE CASCADE ON UPDATE CASCADE 
-            
+            CONSTRAINT file_fk_task FOREIGN KEY ({$prefix}_task_id) REFERENCES {$this->db->dbprefix("task")} (tsk_id) ON DELETE CASCADE ON UPDATE CASCADE ,
+            CONSTRAINT file_fk_user_creator FOREIGN KEY ({$prefix}_creator_id) REFERENCES {$this->db->dbprefix("user")} (usr_id) ON DELETE RESTRICT ON UPDATE CASCADE 
             ) ENGINE=INNODB
             DEFAULT CHARSET = utf8
             DEFAULT COLLATE = utf8_unicode_ci
