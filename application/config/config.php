@@ -1,5 +1,14 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
+function __autoload($classname){
+
+    if(strpos($classname, "CI_")!==0){
+
+        $file= APPPATH.'libraries/'.$classname.'.php';
+        if(file_exists($file)&&is_file($file)) @include_once $file;
+    }
+}
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -26,7 +35,7 @@ $config['base_url']	= '';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -224,7 +233,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = '';
+$config['encryption_key'] = 'RKyRJXpPtMJZ9gTTGpqqtGz433Kmj6im';
 
 /*
 |--------------------------------------------------------------------------
