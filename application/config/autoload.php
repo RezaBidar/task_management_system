@@ -64,7 +64,7 @@ $autoload['libraries'] = array('form_validation' , 'database' , 'session');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url' , 'form');
+$autoload['helper'] = array('url' , 'form' , 'btform');
 
 
 /*
