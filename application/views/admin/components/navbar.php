@@ -52,8 +52,40 @@
                        		    if(!isset($val["address"])) continue ;
 								echo '<li>' . '<a href="' . site_url($val["address"]) . '" ';
 								echo ($val["active"]) ? 'class="active" ' : '' ;
-								echo '><i class="' . $val["icon"] . '"></i> ' . $key . '</a></li>';
-							}
+								echo '><i class="' . $val["icon"] . '"></i> ' . $key . '</a>' ;
+                                /*<ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                                    <li>
+                                        <a href="panels-wells.html">Panels and Wells</a>
+                                    </li>
+                                    <li>
+                                        <a href="buttons.html">Buttons</a>
+                                    </li>
+                                    <li>
+                                        <a href="notifications.html">Notifications</a>
+                                    </li>
+                                    <li>
+                                        <a href="typography.html">Typography</a>
+                                    </li>
+                                    <li>
+                                        <a href="icons.html"> Icons</a>
+                                    </li>
+                                    <li>
+                                        <a href="grid.html">Grid</a>
+                                    </li>
+                                </ul>*/
+                                
+                                if(isset($val["submenu"]) && is_array($val["submenu"])){
+                                    echo '<ul class="nav nav-second-level" >' ;
+                                    foreach ($val["submenu"] as $_key => $_val){
+                                        echo '<li>' . '<a href="' . site_url($_val["address"]) . '" ';
+                                        echo ($_val["active"]) ? 'class="active" ' : '' ;
+                                        echo '><i class="' . $_val["icon"] . '"></i> ' . $_key . '</a>' ;
+                                    }
+                                    echo '</ul>' ;
+                                }
+                                
+                                echo '</li>';
+						  	}
                        	
                        	?>
                     </ul>

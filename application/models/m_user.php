@@ -2,7 +2,8 @@
 class m_user extends MY_Model{
     
     protected $_table_name = 'user' ;
-    protected $_prefix = 'usr' ;
+    protected $_prefix = 'usr_' ;
+    
     public $rule = array (
         'username' => array (
             'field' => 'username',
@@ -16,12 +17,11 @@ class m_user extends MY_Model{
         )
     );
     
+    protected $_timestamp = TRUE ;
     protected $_creator_id = TRUE ;
     protected $_creator_ip = TRUE ;
-    protected $_created_time = TRUE ;
     protected $_modifier_id = TRUE ;
     protected $_modifier_ip = TRUE ;
-    protected $_modified_time = TRUE ;
     
     protected $_username_pattern = "/^[A-Za-z0-9]{5-30}$/" ; //faghat alfanumeric ba size 5-30
     protected $_password_pattern = "/^[A-Za-z0-9]{5-30}$/" ; //faghat alfanumeric ba size 5-30
@@ -90,6 +90,7 @@ class m_user extends MY_Model{
      * @return string
      */
     public function hash($input){
+        if(strlen($input) == 0) return '' ;
         return md5($input . config_item('encryption_key'));
     }
 }

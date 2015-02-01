@@ -8,9 +8,10 @@ class MY_Model extends CI_Model{
 	protected $_orderby = '';
 	protected $_prefix = "";
 	
-	protected $_creator_id = false ;
-	protected $_creator_ip = false ;
-	
+	protected $_creator_id = FALSE ;
+	protected $_creator_ip = FALSE ;
+	protected $_modifier_id = FALSE ;
+	protected $_modifier_ip = FALSE ;
 	
 	/**
 	 * constructor
@@ -44,22 +45,26 @@ class MY_Model extends CI_Model{
 	public function save($data,$id = NULL,$ai = TRUE){
 	    
 	    //set user ip
-	    if($this->_creator_ip) $data["creator_ip"] = $this->getUserIP() ; 
+	    if($id || $this->_creator_ip) $data["creator_ip"] = $this->getUserIP() ;
+	    if($this->_modifier_id) $data["modifier_ip"] = $this->getUserIP() ; 
 		
-	    //set user id
-	    if($this->_creator_id) $data["creator_id"] = $this->session->userdata('id') ;
 	    
+	    //set user id
+	    if($id || $this->_creator_id) $data["creator_id"] = $this->session->userdata('id') ;
+	    if($this->_modifier_id) $data["modifier_id"] = $this->session->userdata('id') ;
+	     
 	    
 		//set timestamp
 		if($this->_timestamp == TRUE){
 			$now = date('Y-m-d H:i:s');
-			$id || $data['created'] = $now;
+			$id || $data['created_time'] = $now;
+			$data['modified_time'] = $now ;
 		}
 		
 		//insert 
 		if($id === NULL){
 			if($ai) !isset($data[$this->_primary_key]) || $data[$this->_primary_key] = NULL; 
-			$this->setPrefix($data);
+			$data = $this->setPrefix($data);
 			$this->db->set($data);
 			$this->db->insert($this->_table_name);
 			$id = $this->db->insert_id();
@@ -70,7 +75,7 @@ class MY_Model extends CI_Model{
 		else {
 			$filter = $this->_primary_filter;
 			$id = $filter($id);
-			$this->setPrefix($data);
+			$data = $this->setPrefix($data);
 			$this->db->set($data);
 			$this->db->where($this->_primary_key,$id);
 			$this->db->update($this->_table_name);	

@@ -15,6 +15,7 @@ class Migration_Create_User extends CI_Migration {
             {$prefix}_lname VARCHAR(100) NULL ,
             {$prefix}_username VARCHAR(100) NULL ,
             {$prefix}_password VARCHAR(255) NULL ,
+            {$prefix}_employee_id VARCHAR(125) NOT NULL UNIQUE ,
             {$prefix}_email VARCHAR(255) NULL ,
             {$prefix}_gender ENUM('male' , 'female') ,
             {$prefix}_tel VARCHAR(20) NULL ,

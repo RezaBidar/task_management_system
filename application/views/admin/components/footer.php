@@ -1,4 +1,5 @@
-	</div>   
+
+</div>   
     <!-- /#wrapper -->
 
     <!-- jQuery Version 1.11.0 -->
