@@ -21,6 +21,18 @@ class btform {
 		return $answer ;
 	}
 	
+	public static function form_password($label = '', $data = '', $value = '', $extra = '' , $help = ''){
+	    $answer  = '<div class="form-group">' ;
+	    if($label != ''){
+	        $answer .= form_label($label, $data['name']);
+	    }
+	    $answer .= form_password($data, $value, $extra);
+	    if($help != '')
+	        $answer .= '<span class="help-block">' . $help . '</span>' ;
+	    $answer .= '</div>';
+	    return $answer ;
+	}
+	
 	public static function form_upload($label = '', $data = '', $value = '', $extra = '' , $help = ''){
 		$answer  = '<div class="form-group">' ;
 		if($label != ''){
