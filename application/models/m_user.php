@@ -3,6 +3,7 @@ class m_user extends MY_Model{
     
     protected $_table_name = 'user' ;
     protected $_prefix = 'usr_' ;
+    protected $_primary_key = 'usr_id';
     
     public $rule = array (
         'username' => array (
@@ -80,7 +81,7 @@ class m_user extends MY_Model{
      * felan chon 2ta sath darim az is_admin estefade mikonim
      * @return bool
      */
-    public function is_admin(){
+    public function isAdmin(){
         return (bool) $this->session->userdata('admin') ;
     }
     
@@ -92,6 +93,33 @@ class m_user extends MY_Model{
     public function hash($input){
         if(strlen($input) == 0) return '' ;
         return md5($input . config_item('encryption_key'));
+    }
+    
+    /**
+     * liste userHaii ra ke dar group_id mojood bashand ro barmigardoone 
+     * agar $member false shod liste karmndani ke dar groohe $group_id nistand ro barmigardoone
+     * agar employee_id set shavad faghat etelaate yek karmand ra barmigardanad
+     * @param string $group_id
+     * @param string $member
+     * @return array
+     */
+    public function getUserByGroup($group_id , $member = '' , $employee_id = ''){
+
+        $in_or_notin = 'not in' ;
+        $end_date = '' ;
+        if($member != '') {
+            $in_or_notin = 'in' ;
+            $end_date = "and `wiw_end_date` IS NULL" ;
+        }
+        
+        $and_employee = '' ;
+        if($and_employee != '') $and_employee = 'AND `usr_id` = '. $employee_id ;
+        
+        $query = "select * from `{$this->db->dbprefix('user')}` where `{$this->db->dbprefix('user')}`.`usr_id` {$in_or_notin} 
+(select `usr_id` from `{$this->db->dbprefix('user')}` left join `{$this->db->dbprefix('who_is_where')}` on `{$this->db->dbprefix('user')}`.`usr_id` = `{$this->db->dbprefix('who_is_where')}`.`wiw_user_id` 
+        where `wiw_group_id` = ? {$and_employee} {$end_date} )" ;
+        
+        return $this->db->query($query , array($group_id))->result();
     }
 }
 

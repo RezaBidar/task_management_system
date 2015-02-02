@@ -58,7 +58,5 @@ $(document).ready(function(){
 //		 bootbox.alert($(this).attr('id'));
 //	 });
 	
-	$("#add_prelesson").on("click",function(){
-		
-	});
+	
 });

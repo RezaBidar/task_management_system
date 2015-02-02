@@ -25,7 +25,7 @@ class MY_Model extends CI_Model{
 		if($id!=NULL){
 			$filter = $this->_primary_filter;
 			$id = $filter($id);
-			$this->db->where($this->_prefix . $this->_primary_key,$id);
+			$this->db->where($this->_primary_key,$id);
 			$method = 'row';
 		}elseif ($single){
 			$method = 'row';
@@ -37,7 +37,7 @@ class MY_Model extends CI_Model{
 	
 	
 	public function get_by($where,$single=FALSE){
-	    $this->setPrefix($where);
+	    $where = $this->setPrefix($where);
 		$this->db->where($where);
 		return $this->get(NULL,$single);
 	}

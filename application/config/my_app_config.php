@@ -13,7 +13,7 @@ $config['admin_menu'] = array(
              "اضافه کردن گروه" => array("address" => "admin/dash_group/add_group" ,
                  "icon" =>"glyphicon glyphicon-user" ,
                  "active" =>FALSE ) ,
-             "انتصاب شخص به گروه" => array("address" => "admin/dashboard" ,
+             "انتصاب شخص به گروه" => array("address" => "admin/dash_group/add_employee" ,
                  "icon" =>"glyphicon glyphicon-user" ,
                  "active" =>FALSE )
               
