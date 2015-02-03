@@ -15,6 +15,9 @@ $config['admin_menu'] = array(
                  "active" =>FALSE ) ,
              "انتصاب شخص به گروه" => array("address" => "admin/dash_group/add_employee" ,
                  "icon" =>"glyphicon glyphicon-user" ,
+                 "active" =>FALSE ) ,
+             "ساختار درختی شرکت" => array("address" => "admin/dash_parent/add_parent" ,
+                 "icon" =>"glyphicon glyphicon-user" ,
                  "active" =>FALSE )
               
           )) ,

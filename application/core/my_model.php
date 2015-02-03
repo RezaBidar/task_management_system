@@ -89,9 +89,10 @@ class MY_Model extends CI_Model{
 		if(!$id){
 			return FALSE;
 		}else{
-			$this->db->where($this->_prefix . $this->_primary_key,$id);
+			$this->db->where($this->_primary_key,$id);
 			$this->db->limit(0);
 			$this->db->delete($this->_table_name);
+			return TRUE ;
 		}
 	}
 	

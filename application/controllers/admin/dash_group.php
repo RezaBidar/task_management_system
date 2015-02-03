@@ -60,6 +60,8 @@ class dash_group extends Admin_Controller{
             $view = 'show_list' ;
         }else {
             $this->data["group_id"] = $group_id ;
+            $this->data["membered"] = $this->m_user->getUserByGroup($group_id , 'member') ;
+            $this->data["not_membered"] = $this->m_user->getUserByGroup($group_id) ;
             $view = 'add_to_group' ;
         }
         
@@ -88,6 +90,47 @@ class dash_group extends Admin_Controller{
             );
         }
         echo json_encode($answer) ;
+    }
+    
+    
+    /**
+     * dar table who_is_where radife ba $group_id va $user_id ra delete mikonad
+     * @param string $group_id
+     * @param string $user_id
+     */
+    public function delete_from_group($group_id , $user_id){
+        
+        $this->load->model('m_who_is_where');
+        $where = array(
+            'user_id' => $user_id ,
+            'group_id' => $group_id 
+        );
+        $row = $this->m_who_is_where->get_by($where , TRUE) ;
+        
+        if(!is_object($row)) return ; 
+        
+        if($this->m_who_is_where->delete($row->wiw_id)){
+            echo "deleted" ;
+        }else{
+            echo "not deleted" ;
+        }
+        
+    }
+    
+    /**
+     * dar table who_is_where radifi ba $group_id va $user_id ezafe mikonad
+     * @param string $group_id
+     * @param string $user_id
+     */
+    public function add_to_group($group_id , $user_id){
+        $this->load->model('m_who_is_where');
+        $data = array(
+            'user_id' => $user_id ,
+            'group_id' => $group_id ,
+            'start_date' => date('Y-m-d H:i:s')
+        );
+        $insert_id = $this->m_who_is_where->save($data) ;
+        echo $insert_id ;
     }
     
 }

@@ -103,7 +103,7 @@ class m_user extends MY_Model{
      * @param string $member
      * @return array
      */
-    public function getUserByGroup($group_id , $member = '' , $employee_id = ''){
+    public function getUserObjectByGroup($group_id , $member = '' , $employee_id = ''){
 
         $in_or_notin = 'not in' ;
         $end_date = '' ;
@@ -119,7 +119,85 @@ class m_user extends MY_Model{
 (select `usr_id` from `{$this->db->dbprefix('user')}` left join `{$this->db->dbprefix('who_is_where')}` on `{$this->db->dbprefix('user')}`.`usr_id` = `{$this->db->dbprefix('who_is_where')}`.`wiw_user_id` 
         where `wiw_group_id` = ? {$and_employee} {$end_date} )" ;
         
-        return $this->db->query($query , array($group_id))->result();
+        $result = $this->db->query($query , array($group_id))->result();
+        
+        return $result ;
+    }
+    
+    /**
+     * 
+     * @param unknown $group_id
+     * @param string $member
+     * @param string $employee_id
+     * @return multitype:multitype:string NULL
+     */
+    public function getUserByGroup($group_id , $member = '' , $employee_id = ''){
+        $result = $this->getUserObjectByGroup($group_id,$member,$employee_id) ;
+        $answer = array() ;
+        foreach($result as $key => $val){
+            $answer[$val->usr_id] = array(
+                'employee_id' => $val->usr_employee_id ,
+                'name' => $val->usr_fname . ' ' . $val->usr_lname
+            );
+        }
+        return $answer ;
+    }
+    
+    /**
+     * 
+     * @param unknown $group_id
+     * @param string $member
+     * @param string $employee_id
+     * @return unknown
+     */
+    public function getUserObjectByParent($group_id , $minion = '' , $employee_id = ''){
+
+        $in_or_notin = 'not in' ;
+        $end_date = '' ;
+        if($minion != '') {
+            $in_or_notin = 'in' ;
+            $end_date = "and `wiw_end_date` IS NULL" ;
+        }
+        
+        $and_employee = '' ;
+        if($and_employee != '') $and_employee = 'AND `usr_id` = '. $employee_id ;
+        
+        $query = "select * from `{$this->db->dbprefix('user')}` where `{$this->db->dbprefix('user')}`.`usr_id` {$in_or_notin} 
+(select `usr_id` from `{$this->db->dbprefix('user')}` left join `{$this->db->dbprefix('who_is_where')}` on `{$this->db->dbprefix('user')}`.`usr_id` = `{$this->db->dbprefix('who_is_where')}`.`wiw_user_id` 
+        where `wiw_group_id` = ? {$and_employee} {$end_date} )" ;
+        
+        $result = $this->db->query($query , array($group_id))->result();
+        
+        return $result ;        
+    }
+    
+    /**
+     * 
+     * @param unknown $group_id
+     * @param string $update_url
+     * @param string $delete_url
+     * @param string $select_url
+     * @return string
+     */
+    public function getTable($group_id , $update_url = NULL , $delete_url = NULL , $select_url = NULL){
+		
+        $table = new My_Table() ;
+		
+        $thead = array(
+            'کد پرسنلی' ,
+            'نام',
+			'نام خانوادگی',
+                
+		);
+		$tbody = array(
+		    'usr_employee_id' ,
+		    'usr_fname' ,
+		    'usr_lname'
+		);
+		
+		$data = $this->getUserObjectByGroup($group_id , 'member') ;
+		
+		return $table->getView($thead, $tbody, $this->_primary_key, $data , $update_url, $delete_url , $select_url );
     }
 }
 
