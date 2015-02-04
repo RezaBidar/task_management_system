@@ -15,10 +15,10 @@
         <button class="btn btn-primary">جست و جو</button>
     </div>
     <select name="membered" id="membered" class="form-control  admin_multi_select" multiple>
-    <?php foreach ($membered as $key => $val) echo "<option value='{$key}'>{$val["name"]} - {$val["employee_id"]} </option>" ;?>
+    <?php foreach ($membered as $key => $val){ echo "<option value='{$key}'>{$val["name"]} - {$val["employee_id"]} </option>" ;}?>
     </select>
     <div class="form-group">
-        <button class="btn btn-danger"  id="remove_from_group_btn">حذف کردن</button>
+        <button class="btn btn-danger"  id="remove_from_btn">حذف کردن</button>
     </div>
 </div>
 
@@ -30,17 +30,19 @@
     </div>
     
     <select name="not_membered" id="not_membered" class="form-control  admin_multi_select" multiple>
-    <?php foreach ($not_membered as $key => $val) echo "<option value='{$key}'>{$val["name"]} - {$val["employee_id"]} </option>" ;?>
+    <?php foreach ($not_membered as $key => $val){ echo "<option value='{$key}'>{$val["name"]} - {$val["employee_id"]} </option>" ;}?>
     </select>
     
     <div class="form-group">
-        <button class="btn btn-success" id="add_to_group_btn">اضافه کردن</button>
+        <button class="btn btn-success" id="add_to_btn">اضافه کردن</button>
     </div>
 </div>
 
 <?php 
-echo btform::form_hidden("group_id" , $group_id) ;
+echo btform::form_hidden("first_param" , $master_id) ;
 echo btform::form_hidden("base_url" , $base_url) ;
+echo btform::form_hidden("add_url" , $add_url) ;
+echo btform::form_hidden("remove_url" , $remove_url);
 ?>
 </div>
 </div>

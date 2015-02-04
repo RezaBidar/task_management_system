@@ -12,6 +12,22 @@ class m_who_is_where extends MY_Model{
     protected $_modifier_id = TRUE ;
     protected $_modifier_ip = TRUE ;
     
+    /**
+     * 
+     * @param string $user_id
+     * @param string $group_id
+     * @return string
+     */
+    public function  getWiwId($user_id , $group_id){
+        echo $user_id ;
+        $where = array(
+            'user_id' => $user_id ,
+            'group_id' => $group_id
+        ) ;
+        
+        return $this->get_by($where , TRUE)->wiw_id ;
+    }
+    
 }
 
 ?>

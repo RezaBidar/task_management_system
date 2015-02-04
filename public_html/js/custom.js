@@ -7,14 +7,14 @@ $(document).ready(function(){
 		"filter" :false
 	});
 
-	$("#add_to_group_btn").click(function(){
+	$("#add_to_btn").click(function(){
 		//bootbox.alert($( "#not_membered option:selected" ).val()) ;
 		if($("#not_membered option:selected").length){
-			var group_id = $("input[name=group_id]").val();
+			var first_param = $("input[name=first_param]").val();
 			var user_id = $( "#not_membered option:selected" ).val() ;
-			var base_url = $("input[name=base_url]").val();
+			var add_url = $("input[name=add_url]").val();
 			$.ajax({
-				url : base_url + "admin/dash_group/add_to_group/" + group_id + "/" + user_id,
+				url : add_url + "/" + first_param + "/" + user_id,
 				success : function(result){
 					location.reload();
 				}
@@ -22,13 +22,13 @@ $(document).ready(function(){
 		}
 	});
 	
-	$("#remove_from_group_btn").click(function(){
+	$("#remove_from_btn").click(function(){
 		if($("#membered option:selected").length){
-			var group_id = $("input[name=group_id]").val();
-			var user_id = $( "#membered option:selected" ).val() ;
-			var base_url = $("input[name=base_url]").val();
+			var first_param = $("input[name=first_param]").val();
+			var user_id = $( "#not_membered option:selected" ).val() ;
+			var remove_url = $("input[name=remove_url]").val();
 			$.ajax({
-				url : base_url + "admin/dash_group/delete_from_group/" + group_id + "/" + user_id,
+				url : remove_url + "/" + first_param + "/" + user_id,
 				success : function(result){
 					location.reload();
 				}
