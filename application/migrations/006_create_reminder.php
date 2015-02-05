@@ -12,6 +12,7 @@ class Migration_Create_Reminder extends CI_Migration {
             CREATE TABLE {$table_name} (
             {$prefix}_id INT(14) UNSIGNED NOT NULL AUTO_INCREMENT ,
             {$prefix}_type INT(4) DEFAULT 0 ,
+            {$prefix}_title VARCHAR(100) NOT NULL ,
             {$prefix}_text TEXT NOT NULL ,
             {$prefix}_duration INT(14) DEFAULT 1 ,
             {$prefix}_start_time DATETIME NOT NULL ,

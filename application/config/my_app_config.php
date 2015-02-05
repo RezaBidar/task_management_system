@@ -26,5 +26,17 @@ $config['admin_menu'] = array(
          "active" =>FALSE) ,
     "یادآوری" => array("address" => "admin/dashboard" ,
          "icon" =>"glyphicon glyphicon-bullhorn" ,
-         "active" =>FALSE) 
+         "active" =>FALSE ,
+         "submenu" => array(
+             "اضافه کردن یادآوری" => array("address" => "admin/dash_reminder/add_reminder" ,
+                 "icon" =>"glyphicon glyphicon-bullhorn" ,
+                 "active" =>FALSE) ,
+             "یادآوری های انجام شده" => array("address" => "admin/dashboard" ,
+                 "icon" =>"glyphicon glyphicon-bullhorn" ,
+                 "active" =>FALSE) ,
+             "یادآوری های مربوط به خود" => array("address" => "admin/dashboard" ,
+                 "icon" =>"glyphicon glyphicon-bullhorn" ,
+                 "active" =>FALSE) ,
+         )
+    ) 
    );

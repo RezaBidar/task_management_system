@@ -30,8 +30,8 @@ class dash_parent extends Admin_Controller{
         }else {
             $this->data["master_id"] = $this->m_who_is_where->getWiwId($master_id , $group_id) ; 
             $this->data["group_id"] = $group_id ;
-            $this->data["membered"] = $this->m_user->getUserByParent($this->data["master_id"] , 'member') ;
-            $this->data["not_membered"] = $this->m_user->getUserByParent($this->data["master_id"]) ;
+            $this->data["membered"] = $this->m_user->getUserByParent($group_id , $this->data["master_id"] , 'member') ;
+            $this->data["not_membered"] = $this->m_user->getUserByParent($group_id , $this->data["master_id"]) ;
             $this->data["add_url"] = base_url('admin/dash_parent/add_to_parent/');
             $this->data["remove_url"] = base_url('admin/dash_parent/delete_from_parent/');
             $view = 'add_parent' ;
@@ -59,7 +59,7 @@ class dash_parent extends Admin_Controller{
     
         if(!is_object($row)) return ;
     
-        if($this->m_parent->delete($row->wiw_id)){
+        if($this->m_parent->delete($row->prt_id)){
             echo "deleted" ;
         }else{
             echo "not deleted" ;

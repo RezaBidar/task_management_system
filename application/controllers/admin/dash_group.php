@@ -62,6 +62,8 @@ class dash_group extends Admin_Controller{
             $this->data["group_id"] = $group_id ;
             $this->data["membered"] = $this->m_user->getUserByGroup($group_id , 'member') ;
             $this->data["not_membered"] = $this->m_user->getUserByGroup($group_id) ;
+            $this->data["add_url"] = base_url('admin/dash_group/add_to_group/');
+            $this->data["remove_url"] = base_url('admin/dash_group/delete_from_group/');
             $view = 'add_to_group' ;
         }
         

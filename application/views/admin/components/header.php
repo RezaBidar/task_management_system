@@ -17,6 +17,9 @@
     <!-- MetisMenu CSS -->
     <link href="<?php echo site_url('css/plugins/metisMenu/metisMenu.min.css') ?>" rel="stylesheet">
 
+    <!-- jalali Date picker -->
+    <link href="<?php echo site_url('css/plugins/jalaliDatepicker/bootstrap-datepicker.min.css') ?>" rel="stylesheet">
+    
     <!-- Custom CSS -->
     <link href="<?php echo site_url('css/sb-admin-2.css') ?>" rel="stylesheet">
     <link href="<?php echo site_url('css/admin.css') ?>" rel="stylesheet">

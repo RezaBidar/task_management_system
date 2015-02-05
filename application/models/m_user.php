@@ -149,7 +149,7 @@ class m_user extends MY_Model{
      * @param string $employee_id
      * @return unknown
      */
-    public function getUserObjectByParent( $master_id , $minion = ''){
+    public function getUserObjectByParent( $group_id , $master_id , $minion = ''){
 
         $in_or_notin = 'not in' ;
         if($minion != '') {
@@ -174,14 +174,14 @@ class m_user extends MY_Model{
 //                     left join `rz_user` on `rz_who_is_where`.`wiw_user_id` = `rz_user`.`usr_id`
 //                     where `wiw_user_id` not in (select `wiw_user_id` from `rz_parent`
 //                     left join `rz_who_is_where` on `rz_parent`.`prt_employee_id` = `rz_who_is_where`.`wiw_id`
-//                     where `prt_master_id` = 16)" ;
+//                     where `prt_master_id` = 16) and `wiw_group_id` = 3 and `wiw_id` = 16" ;
         
 
         $query =    "select * from `{$this->db->dbprefix('who_is_where')}`
                     left join `{$this->db->dbprefix('user')}` on `{$this->db->dbprefix('who_is_where')}`.`wiw_user_id` = `{$this->db->dbprefix('user')}`.`usr_id`
                     where `wiw_user_id` {$in_or_notin} (select `wiw_user_id` from `{$this->db->dbprefix('parent')}`
                     left join `{$this->db->dbprefix('who_is_where')}` on `{$this->db->dbprefix('parent')}`.`prt_employee_id` = `{$this->db->dbprefix('who_is_where')}`.`wiw_id`
-                    where `prt_master_id` = {$master_id})" ;
+                    where `prt_master_id` = {$master_id}) and `wiw_group_id` = {$group_id} and `wiw_id` != {$master_id} " ;
         
         $result = $this->db->query($query)->result();
         
@@ -197,8 +197,8 @@ class m_user extends MY_Model{
      * @param string $employee_id
      * @return multitype:multitype:string NULL
      */
-    public function getUserByParent($master_id , $member = '' ){
-        $result = $this->getUserObjectByParent($master_id ,$member) ;
+    public function getUserByParent($group_id ,$master_id , $member = '' ){
+        $result = $this->getUserObjectByParent($group_id , $master_id ,$member) ;
         $answer = array() ;
         foreach($result as $key => $val){
             $answer[$val->wiw_id] = array(
