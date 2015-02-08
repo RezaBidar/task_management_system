@@ -3,7 +3,7 @@ class dash_user extends Admin_Controller{
     
     public function __construct(){
         parent::__construct() ;
-        $this->load->model('m_user') ;
+        if(!$this->m_user->isAdmin()) die("access denied") ;
     }
     
     public function add_user(){

@@ -34,16 +34,19 @@ class m_user extends MY_Model{
      */
     public function login(){
         $where = array(
-            "usr_password" => $this->hash($this->input->post('password')),
-            "usr_username" => $this->input->post('username')
+            "password" => $this->hash($this->input->post('password')),
+            "username" => $this->input->post('username')
         );
+        
         $user = $this->get_by($where,true);
+        
+        $is_admin = ($user->usr_type == 10)? TRUE : FALSE ; //10 is admin 
         if(count($user)){
             $session_data = array(
                 "fname" => $user->usr_fname,
                 "lname"	=> $user->usr_lname,
                 "username" => $user->usr_username,
-                "admin"	=> ($user->usr_type == 10)? TRUE : FALSE,//10 is admin 
+                "admin"	=>  $is_admin ,
                 "id" => $user->usr_id ,
                 "loged_in" => TRUE
             );
@@ -143,7 +146,7 @@ class m_user extends MY_Model{
         return $answer ;
     }
     
-    /**
+ /**
      * @param string $master_id /// dar vaghe wiw_master_id    
      * @param string $member
      * @param string $employee_id
@@ -208,6 +211,71 @@ class m_user extends MY_Model{
         }
         return $answer ;
     }
+    
+    /**
+     * @param string $master_id /// dar vaghe wiw_master_id
+     * @param string $member
+     * @param string $employee_id
+     * @return unknown
+     */
+    public function getUserObjectByNoted( $reminder_id , $master_id , $minion = ''){
+    
+        $in_or_notin = 'not in' ;
+        if($minion != '') {
+            $in_or_notin = 'in' ;
+        }
+    
+//         $query =   "select * from `rz_user` 
+//                     join `rz_who_is_where` on `wiw_user_id` = `usr_id` 
+//                     join `rz_parent` on `prt_employee_id` = `wiw_id` 
+//                     where `usr_id` not in 
+//                     (select `usr_id` from `rz_noted` 
+//                      join `rz_parent` on `ntd_parent_child_id` = `prt_id` 
+//                      join `rz_who_is_where` on `prt_employee_id` = `wiw_id` 
+//                      join `rz_user` on `wiw_user_id` = `usr_id` 
+//                      where `prt_master_id` = 21 and `ntd_reminder_id` = 1 ) 
+//                     and `prt_master_id` = 21 " ;
+        
+        $query =   "select * from `{$this->db->dbprefix('user')}`
+                    join `{$this->db->dbprefix('who_is_where')}` on `wiw_user_id` = `usr_id`
+                    join `{$this->db->dbprefix('parent')}` on `prt_employee_id` = `wiw_id`
+                    where `usr_id` {$in_or_notin}
+                    (select `usr_id` from `{$this->db->dbprefix('noted')}`
+                     join `{$this->db->dbprefix('parent')}` on `ntd_parent_child_id` = `prt_id`
+                     join `{$this->db->dbprefix('who_is_where')}` on `prt_employee_id` = `wiw_id`
+                     join `{$this->db->dbprefix('user')}` on `wiw_user_id` = `usr_id`
+                     where `prt_master_id` = {$master_id} and `ntd_reminder_id` = {$reminder_id} )
+                    and `prt_master_id` = {$master_id} " ;
+        
+    
+        $result = $this->db->query($query)->result();
+        
+        return $result ;
+    }
+    
+    
+    /**
+     *
+     * @param unknown $group_id
+     * @param unknown $parent_id
+     * @param string $member
+     * @param string $employee_id
+     * @return multitype:multitype:string NULL
+     */
+    public function getUserByNoted($reminder_id ,$master_id , $member = '' ){
+        $result = $this->getUserObjectByNoted($reminder_id , $master_id ,$member) ;
+        
+        $answer = array() ;
+        foreach($result as $key => $val){
+            $answer[$val->prt_id] = array(
+                'employee_id' => $val->usr_employee_id ,
+                'name' => $val->usr_fname . ' ' . $val->usr_lname
+            );
+        }
+        return $answer ;
+    }
+    
+    
     
     /**
      * 

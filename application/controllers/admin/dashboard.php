@@ -8,4 +8,9 @@ class Dashboard extends Admin_Controller{
 		$this->load->view('admin/home' );
 		$this->load->view('admin/components/footer');
     }
+    
+    public function logout(){
+        $this->m_user->logout();
+        redirect('login');
+    }
 }

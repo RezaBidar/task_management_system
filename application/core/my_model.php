@@ -36,8 +36,8 @@ class MY_Model extends CI_Model{
 	}
 	
 	
-	public function get_by($where,$single=FALSE){
-	    $where = $this->setPrefix($where);
+	public function get_by($where, $single=FALSE , $set_pre = TRUE){
+	    if($set_pre) $where = $this->setPrefix($where);
 		$this->db->where($where);
 		return $this->get(NULL,$single);
 	}
