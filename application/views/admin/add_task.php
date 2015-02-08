@@ -9,18 +9,15 @@
 echo btform::form_open();
 
 
-echo btform::form_select('درجه اهمیت', 'type', array(
-                                             '0' => 'ثابت' ,
-                                             '1' => 'روزانه' ,
-                                             '2' => 'هفنگی' , 
-                                             '3' => 'ماهانه'
-                                                            ) , '' , 'class="form-control"') ;
+echo btform::form_select('درجه اهمیت', 'priority', array(
+                                             '0' => 'معمولی' ,
+                                             '1' => 'مهم' ) , '' , 'class="form-control"') ;
 
 echo btform::form_input('تاریخ شروع' , array('name' => 'start_time' , 'class' => 'form-control hasDatepicker' , 'id' => 'datepicker3' )) ;
-echo btform::form_input('تاریخ پایان' , array('name' => 'start_time' , 'class' => 'form-control hasDatepicker' , 'id' => 'datepicker3' )) ;
-echo btform::form_input('چند روز قبل الارم بده ' , array('name' => 'duration' , 'class' => 'form-control' )) ;
-echo btform::form_input('موضوع' , array('name' => 'title' , 'class' => 'form-control' )) ;
-echo btform::form_textarea("متن" , array("name" => "text" , "class" => "form-control" ));
+echo btform::form_input('تاریخ پایان' , array('name' => 'end_time' , 'class' => 'form-control hasDatepicker' , 'id' => 'datepicker3' )) ;
+echo btform::form_input('چند ساعت قبل الارم بده ' , array('name' => 'warning_date' , 'class' => 'form-control' , 'type' => 'number' , 'min' => '0' , 'max' => '10' , 'step' => '1' )) ;
+echo btform::form_input('عنوان' , array('name' => 'title' , 'class' => 'form-control' )) ;
+echo btform::form_textarea("متن" , array("name" => "description" , "class" => "form-control" ));
 echo btform::form_submit(array("name"=>"submit" , "class"=>"btn btn-primary" ) , "ذخیره");
 echo btform::form_close();
 
