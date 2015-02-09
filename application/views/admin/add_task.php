@@ -8,7 +8,8 @@
 <?php 
 echo btform::form_open();
 
-
+echo btform::form_select('گروه', 'group_id', $group_list , '' , 'class="form-control" id="group_list" ') ;
+echo btform::form_select('کی انجام بده', 'who_is_where_id', array() , '' , 'class="form-control" id="user_list" ') ;
 echo btform::form_select('درجه اهمیت', 'priority', array(
                                              '0' => 'معمولی' ,
                                              '1' => 'مهم' ) , '' , 'class="form-control"') ;
@@ -19,6 +20,7 @@ echo btform::form_input('چند ساعت قبل الارم بده ' , array('nam
 echo btform::form_input('عنوان' , array('name' => 'title' , 'class' => 'form-control' )) ;
 echo btform::form_textarea("متن" , array("name" => "description" , "class" => "form-control" ));
 echo btform::form_submit(array("name"=>"submit" , "class"=>"btn btn-primary" ) , "ذخیره");
+echo btform::form_hidden("users_url" , $users_url) ;
 echo btform::form_close();
 
 var_dump(validation_errors()) ;

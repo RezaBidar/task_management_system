@@ -19,7 +19,6 @@ class m_who_is_where extends MY_Model{
      * @return string
      */
     public function  getWiwId($user_id , $group_id){
-        echo $user_id ;
         $where = array(
             'user_id' => $user_id ,
             'group_id' => $group_id

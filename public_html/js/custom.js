@@ -41,5 +41,22 @@ $(document).ready(function(){
 		}
 	});
 	
-	
+	$("#group_list").change(function(){
+		
+		var users_url =  $("input[name=users_url]").val() + '/' + $("#group_list option:selected").val();
+		$("#user_list").html('') ;
+		$.getJSON( users_url  , function( data ) {
+			
+//			bootbox.alert(data.toString()) ;
+//			  var items = [];
+			$.each( data, function( key, val ) {
+				$("#user_list").append( "<option value='" + key + "'>" + val + "</option>" );
+			});
+			 
+//			  $( "<select/>", {
+//			    "class": "my-new-list",
+//			    html: items.join( "" )
+//			  }).appendTo( "body" );
+		});
+	});
 });

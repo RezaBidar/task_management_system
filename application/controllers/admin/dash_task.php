@@ -11,6 +11,7 @@ class dash_task extends Admin_Controller{
         $this->load->model('m_feedback') ;
         $this->load->model('m_who_is_where') ;
         $this->load->model('m_who_did_see') ;
+        $this->load->model('m_parent') ;
     }
     
     
@@ -70,12 +71,35 @@ class dash_task extends Admin_Controller{
         }
         
         $this->data["title"] = "اضافه کردن وظیفه" ;
+        $group_list = $this->m_group->get() ;
+        foreach ($group_list as $key => $val){
+            $this->data["group_list"][$val->grp_id] = $val->grp_name ;
+        }
+        
+        $this->data["users_url"] = site_url("admin/dash_task/get_my_employee_by_group");
         
         $this->load->view('admin/components/header');
         $this->load->view('admin/components/navbar' , $this->data);
         $this->load->view('admin/add_task' , $this->data);
         $this->load->view('admin/components/footer');
     }
+    
+    /**
+     * baraye ajax estefade mishe
+     * @param unknown $group_id
+     */
+    public function get_my_employee_by_group($group_id){
+        $master_wiw_id = $this->m_who_is_where->getWiwId($this->session->userdata('id') , $group_id) ;
+        $data = $this->m_parent->getUserByMasterWiwId($master_wiw_id) ;
+        
+        $answer = array() ;
+        foreach ($data as $key => $val){
+            $answer[$val->wiw_id] = $val->usr_fname . " " . $val->usr_lname ;    
+        }
+        
+        echo json_encode($answer) ;
+    }
+    
     
     public function add_duty($task_id = NULL , $group_id = NULL){
         $view = NULL ;
