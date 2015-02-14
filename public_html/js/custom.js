@@ -44,7 +44,7 @@ $(document).ready(function(){
 	});
 	
 	$("#add_feedback").click(function(){
-		var text = $.trim($('#feedback_text').val());
+		var text = $.trim($('#feedback_text').val()) ;
 		
 		if(text.length > 0){
 			var url = $("input[name=url]").val();
@@ -52,13 +52,16 @@ $(document).ready(function(){
 			var task_id = $("input[name=task_id]").val();
 			$.ajax({
 				url : url ,
+				method : "post" ,
 				data: {
 					text: text ,
 					wiw_id : wiw_id ,
 					task_id : task_id
 					},
 				success : function(result){
+					//bootbox.alert(text);
 					location.reload();
+					
 				}
 			});
 		}else bootbox.alert("khalie") ;

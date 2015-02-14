@@ -12,5 +12,6 @@ class Admin_Controller extends MY_Controller {
 		// load menu for admin panel
 		$this->data["menu"] = config_item("admin_menu");
 		$this->data["base_url"] = base_url() ;
+		$this->data["user_id"] = $this->session->userdata('id') ;
 	}
 }
