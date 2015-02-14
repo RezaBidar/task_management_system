@@ -313,7 +313,7 @@ class m_user extends MY_Model{
     
         $result = $this->db->query($query)->result();
         //echo $this->db->last_query();
-        echo "reza" ;
+        //echo "reza" ;
         return $result ;
     }
     
