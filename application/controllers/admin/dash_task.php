@@ -143,6 +143,7 @@ class dash_task extends Admin_Controller{
             $this->data["employee_list"] = $this->m_duty->getUserByTaskId($task_id);
             
             
+            
             $task_object = $this->m_task->get_by(array('id' => $task_id) , TRUE);
             $this->data["task"] = array(
                     'id' => $task_object->tsk_id ,
@@ -150,6 +151,12 @@ class dash_task extends Admin_Controller{
                     'description' => $task_object->tsk_description    
             );
             $view = 'task_view' ;
+            
+            $this->data["url"] = site_url('admin/dash_task/add_feedback');
+            
+            $this->data["wiw_id"] = $this->m_who_is_where->getWiwId($this->data["user_id"] , $group_id) ;
+            
+            $this->data["task_id"] = $task_id ;
         }
         
         //load views
@@ -241,6 +248,26 @@ class dash_task extends Admin_Controller{
         $this->load->view('admin/show_list' , $this->data);
         $this->load->view('admin/components/footer');
     
+    }
+    
+    /**
+     * add feedback by ajax
+     */
+    public function add_feedback(){
+        $task_id = $this->input->get('task_id') ;
+        $text = strip_tags(trim($this->input->get('text'))) ;
+        $wiw_id = $this->input->get('wiw_id') ;
+        
+        if(!(is_numeric($task_id) && strlen($text) > 0)) {
+            $this->output->set_status_header('406'); 
+            return  ;
+        }
+        $data = array(
+            'task_id' => $task_id ,
+            'text' => $text ,
+            'wiw_id' => $wiw_id ,
+        );
+        return $this->m_feedback->save($data) ;
     }
     
     /**

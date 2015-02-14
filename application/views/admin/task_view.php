@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-
-var_dump($task) ;
+echo form_hidden("url" , $url) ;
+echo form_hidden("wiw_id" , $wiw_id) ;
+echo form_hidden("task_id" , $task_id) ;
 ?>
 <div id="page-wrapper">
 <div class="container col-md-10 col-lg-10 col-sm-10">
@@ -127,9 +128,9 @@ var_dump($task) ;
             </div>
             <div class="panel-footer">
                 <div class="input-group">
-                                    <textarea class="form-control" placeholder="Enter Message" ></textarea>
+                                    <textarea class="form-control" id="feedback_text" placeholder="Enter Message" autocomplete="off" ></textarea>
                                     <span class="input-group-btn">
-                                        <button class="btn btn-info" type="button">SEND</button>
+                                        <button class="btn btn-info" id="add_feedback" type="button">SEND</button>
                                     </span>
                                 </div>
             </div>

@@ -43,6 +43,28 @@ $(document).ready(function(){
 		}
 	});
 	
+	$("#add_feedback").click(function(){
+		var text = $.trim($('#feedback_text').val());
+		
+		if(text.length > 0){
+			var url = $("input[name=url]").val();
+			var wiw_id = $("input[name=wiw_id]").val();
+			var task_id = $("input[name=task_id]").val();
+			$.ajax({
+				url : url ,
+				data: {
+					text: text ,
+					wiw_id : wiw_id ,
+					task_id : task_id
+					},
+				success : function(result){
+					location.reload();
+				}
+			});
+		}else bootbox.alert("khalie") ;
+	});
+	
+	
 	$("#group_list").change(function(){
 		
 		var users_url =  $("input[name=users_url]").val() + '/' + $("#group_list option:selected").val();
