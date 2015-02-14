@@ -9,7 +9,7 @@
 echo btform::form_open();
 
 echo btform::form_select('گروه', 'group_id', $group_list , '' , 'class="form-control" id="group_list" ') ;
-echo btform::form_select('کی انجام بده', 'who_is_where_id', array() , '' , 'class="form-control" id="user_list" multiple') ;
+echo btform::form_select('کی انجام بده', 'employee_prt_id[]', array() , '' , 'class="form-control" id="user_list" multiple') ;
 echo btform::form_select('درجه اهمیت', 'priority', array(
                                              '0' => 'معمولی' ,
                                              '1' => 'مهم' ) , '' , 'class="form-control"') ;

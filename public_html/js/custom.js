@@ -7,6 +7,8 @@ $(document).ready(function(){
 		"filter" :false
 	});
 	
+	$("#user_list").multiselect();
+	
 	$("#datepicker3").datepicker({
         numberOfMonths: 3,
         showButtonPanel: true
@@ -44,6 +46,7 @@ $(document).ready(function(){
 	$("#group_list").change(function(){
 		
 		var users_url =  $("input[name=users_url]").val() + '/' + $("#group_list option:selected").val();
+		$("#user_list").multiselect('destroy');
 		$("#user_list").html('') ;
 		$.getJSON( users_url  , function( data ) {
 			
@@ -52,11 +55,10 @@ $(document).ready(function(){
 			$.each( data, function( key, val ) {
 				$("#user_list").append( "<option value='" + key + "'>" + val + "</option>" );
 			});
-			 
-//			  $( "<select/>", {
-//			    "class": "my-new-list",
-//			    html: items.join( "" )
-//			  }).appendTo( "body" );
+			
+			//$("#user_list").multiselect('rebulid'); //also can use rebuild
+			$("#user_list").multiselect(); 
+
 		});
 	});
 });

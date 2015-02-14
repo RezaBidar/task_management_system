@@ -23,6 +23,10 @@
     <script src="<?php echo site_url('js/plugins/jalaliDatepicker/bootstrap-datepicker.min.js') ?>"></script>
     <script src="<?php echo site_url('js/plugins/jalaliDatepicker/bootstrap-datepicker.fa.min.js') ?>"></script>
     
+    <!-- multiselect library -->
+    <script src="<?php echo site_url('js/plugins/multiselect/bootstrap-multiselect.js') ?>"></script>
+    
+    
     <!-- ReZaBiDaR custom javascripts  -->
     <script>
     </script>

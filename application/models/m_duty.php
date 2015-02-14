@@ -40,6 +40,23 @@ class m_duty extends MY_Model{
     
         return $table->getView($thead, $tbody, $this->_primary_key, $data , $update_url, $delete_url , $select_url );
     }
+    
+    /**
+     * 
+     * @param unknown $task_id
+     */
+    public function getUserByTaskId($task_id){
+
+        $this->db->join('parent' , 'dty_parent_child_id = prt_id') ;
+        $this->db->join('who_is_where' , 'prt_employee_id = wiw_id') ;
+        $this->db->join('user' , 'wiw_user_id = usr_id') ;
+        
+        $where = array(
+            'dty_task_id' => $task_id   
+        );
+        
+        return $this->get_by($where,FALSE,FALSE);
+    }
         
 }
 

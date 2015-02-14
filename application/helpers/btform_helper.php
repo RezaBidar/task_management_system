@@ -116,4 +116,15 @@ class btform {
 		$answer .= '</div>';
 		return $answer ;
 	}
+	
+	/**
+	 * 
+	 * @param string $pic_address
+	 */
+	public static function show_pic($pic_address){
+	    if($pic_address == NULL || !is_file(site_url($pic_address)) || !file_exists(site_url($pic_address))){
+	       return site_url('img/avatar/default.png') ;
+	    }
+	    
+	}
 }

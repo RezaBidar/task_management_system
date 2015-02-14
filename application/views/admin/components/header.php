@@ -14,19 +14,26 @@
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo site_url('css/bootstrap.min.css') ?>" rel="stylesheet">
 
+    
+    <!-- Custom CSS -->
+    <link href="<?php echo site_url('css/sb-admin-2.css') ?>" rel="stylesheet">
+    <link href="<?php echo site_url('css/admin.css') ?>" rel="stylesheet">
+
+    
+    <!-- Custom Fonts -->
+    <link href="<?php echo site_url('font-awesome-4.1.0/css/font-awesome.min.css') ?>" rel="stylesheet" type="text/css">
+
+    
     <!-- MetisMenu CSS -->
     <link href="<?php echo site_url('css/plugins/metisMenu/metisMenu.min.css') ?>" rel="stylesheet">
 
     <!-- jalali Date picker -->
     <link href="<?php echo site_url('css/plugins/jalaliDatepicker/bootstrap-datepicker.min.css') ?>" rel="stylesheet">
     
-    <!-- Custom CSS -->
-    <link href="<?php echo site_url('css/sb-admin-2.css') ?>" rel="stylesheet">
-    <link href="<?php echo site_url('css/admin.css') ?>" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="<?php echo site_url('font-awesome-4.1.0/css/font-awesome.min.css') ?>" rel="stylesheet" type="text/css">
-
+    <!-- multiselect -->
+    <link href="<?php echo site_url('css/plugins/multiselect/bootstrap-multiselect.css') ?>" rel="stylesheet">
+    
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

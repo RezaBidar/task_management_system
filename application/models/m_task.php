@@ -31,6 +31,18 @@ class m_task extends MY_Model{
     
         return $table->getView($thead, $tbody, $this->_primary_key, $data , $update_url, $delete_url , $select_url );
     }
+    
+    /**
+     * return task_list by group_id
+     * @param unknown $group_id
+     * @param string $update_url
+     * @param string $delete_url
+     * @param string $select_url
+     */
+    public function getTableByGroup($group_id , $update_url = NULL , $delete_url = NULL , $select_url = NULL){
+        $this->db->where('tsk_group_id' , $group_id) ;
+        return $this->getTable($update_url , $delete_url , $select_url) ;
+    }
 }
 
 ?>

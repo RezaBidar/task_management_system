@@ -18,6 +18,16 @@ class dash_task extends Admin_Controller{
     public function add_task(){
         
         $rule = array(
+            "group_id" => array(
+                "field" => "group_id" ,
+                "label" => "نام گروه" ,
+                "rules" => "required|xss_clean|trim"
+            ) ,
+            "employee_prt_id" => array(
+                "field" => "employee_prt_id[]" ,
+                "label" => "کار رو کی انجام بده" ,
+                "rules" => "required|xss_clean|trim"
+            ) ,
             "priority" => array(
                 "field" => "priority" ,
                 "label" => "درجه اهمیت" ,
@@ -52,7 +62,9 @@ class dash_task extends Admin_Controller{
         );
         $this->form_validation->set_rules($rule);
         if($this->form_validation->run() == TRUE){
+           
             $data = array(
+                'group_id' => $this->input->post('group_id') ,
                 'priority' => $this->input->post('pariority') ,
                 'start_time' => date('Y-m-d H:i:s') ,
                 'end_time' => date('Y-m-d H:i:s', strtotime('+1 year')) , //next year
@@ -65,9 +77,20 @@ class dash_task extends Admin_Controller{
             //remove empty indexes  .. in faghat vase insert estefade mishavad va shayad dar ayande asan hazfesh kardam :D
             foreach ($data as $key => $val) if(strlen($val) == 0) unset($data[$key]) ;
         
-            $this->m_task->save($data);
-            //             redirect('admin/dashboard');
-            echo $this->db->last_query();
+            $this->db->trans_start();
+            $task_id = $this->m_task->save($data);
+            
+            foreach ($this->input->post('employee_prt_id') as $parent_id){
+                $data = array(
+                    'parent_child_id' => $parent_id ,
+                    'task_id' => $task_id
+                );
+                $this->m_duty->save($data) ;
+            }
+            
+            $this->db->trans_complete();
+//             redirect('admin/dashboard');
+//             echo $this->db->last_query();
         }
         
         $this->data["title"] = "اضافه کردن وظیفه" ;
@@ -84,9 +107,10 @@ class dash_task extends Admin_Controller{
         $this->load->view('admin/components/footer');
     }
     
+    
     /**
      * baraye ajax estefade mishe
-     * @param unknown $group_id
+     * @param int $group_id
      */
     public function get_my_employee_by_group($group_id){
         $master_wiw_id = $this->m_who_is_where->getWiwId($this->session->userdata('id') , $group_id) ;
@@ -94,13 +118,52 @@ class dash_task extends Admin_Controller{
         
         $answer = array() ;
         foreach ($data as $key => $val){
-            $answer[$val->wiw_id] = $val->usr_fname . " " . $val->usr_lname ;    
+            $answer[$val->prt_id] = $val->usr_fname . " " . $val->usr_lname ;    
         }
         
         echo json_encode($answer) ;
     }
     
+    /**
+     * didane taskhaii ke ijad shode
+     * @param int $group_id
+     */
+    public function task_list($group_id = NULL , $task_id = NULL){
+        
+        if($group_id == NULL){
+            $this->data["table"] = $this->m_group->getTable(NULL , NULL , "admin/dash_task/task_list");
+            $view = 'show_list' ;
+        }else if($task_id == NULL) {
+            $this->data["table"] = $this->m_task->getTableByGroup($group_id , NULL , NULL , "admin/dash_task/task_list/" . $group_id);
+            $view = 'show_list' ;
+        }else{
+            $this->data["seen_message"] = $this->m_feedback->getSeenMessage($task_id);
+            $this->data["not_seen_message"] = $this->m_feedback->getNotSeenMessage($task_id);
+            
+            $this->data["employee_list"] = $this->m_duty->getUserByTaskId($task_id);
+            
+            
+            $task_object = $this->m_task->get_by(array('id' => $task_id) , TRUE);
+            $this->data["task"] = array(
+                    'id' => $task_object->tsk_id ,
+                    'title' => $task_object->tsk_title ,
+                    'description' => $task_object->tsk_description    
+            );
+            $view = 'task_view' ;
+        }
+        
+        //load views
+        $this->load->view('admin/components/header');
+        $this->load->view('admin/components/navbar' , $this->data);
+        $this->load->view('admin/' . $view , $this->data);
+        $this->load->view('admin/components/footer');
+    }
     
+    /**
+     * baraye ezafe kardane karbar be task
+     * @param string $task_id
+     * @param string $group_id
+     */
     public function add_duty($task_id = NULL , $group_id = NULL){
         $view = NULL ;
     
