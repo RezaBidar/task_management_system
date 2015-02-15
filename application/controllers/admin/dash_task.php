@@ -313,4 +313,14 @@ class dash_task extends Admin_Controller{
         
     }
     
+    public function end_task($task_id){
+        
+    }
+    
+    public function end_duty($parent_id = NULL){
+        $this->load->view('admin/components/header');
+        $this->load->view('admin/components/navbar' , $this->data);
+        $this->load->view('admin/remove_duty' , $this->data);
+        $this->load->view('admin/components/footer');
+    }
 }

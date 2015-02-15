@@ -9,10 +9,7 @@ $(document).ready(function(){
 	
 	$("#user_list").multiselect();
 	
-	$("#datepicker3").datepicker({
-        numberOfMonths: 3,
-        showButtonPanel: true
-    });
+	$(".hasdatepicker").datepicker();
 
 	$("#add_to_btn").click(function(){
 		//bootbox.alert($( "#not_membered option:selected" ).val()) ;
@@ -85,5 +82,13 @@ $(document).ready(function(){
 			$("#user_list").multiselect(); 
 
 		});
+	});
+	
+	$(".star_rate").raty({
+			hints       : ['بد', 'ضعیف', 'متوسط', 'خوب', 'عالی'], // Hints used on each star.
+			scoreName   : 'duty_score' ,
+			number : 10 ,
+			starOff : $("input[name=base_url]").val() + '/js/plugins/raty/images/star-off.png',
+			starOn  : $("input[name=base_url]").val() + 'js/plugins/raty/images/star-on.png' ,
 	});
 });
