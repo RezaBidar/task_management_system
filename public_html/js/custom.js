@@ -9,7 +9,11 @@ $(document).ready(function(){
 	
 	$("#user_list").multiselect();
 	
-	$(".hasdatepicker").datepicker();
+	$(".datepicker").pDatepicker({
+		timePicker : {
+			enabled : true ,
+		},
+	});
 
 	$("#add_to_btn").click(function(){
 		//bootbox.alert($( "#not_membered option:selected" ).val()) ;
@@ -84,11 +88,14 @@ $(document).ready(function(){
 		});
 	});
 	
-	$(".star_rate").raty({
-			hints       : ['بد', 'ضعیف', 'متوسط', 'خوب', 'عالی'], // Hints used on each star.
-			scoreName   : 'duty_score' ,
-			number : 10 ,
-			starOff : $("input[name=base_url]").val() + '/js/plugins/raty/images/star-off.png',
-			starOn  : $("input[name=base_url]").val() + 'js/plugins/raty/images/star-on.png' ,
+	$( ".star_rate" ).each(function( index ) {
+		$(this).raty({
+				hints       : ['بد','بد', 'ضعیف', 'ضعیف', 'متوسط', 'متوسط', 'خوب', 'خوب', 'عالی', 'عالی'], // Hints used on each star.
+				scoreName   : 'duty_score[' + $(this).attr('id') + ']' ,
+				number : 10 ,
+				starOff : $("input[name=base_url]").val() + '/js/plugins/raty/images/star-off.png',
+				starOn  : $("input[name=base_url]").val() + 'js/plugins/raty/images/star-on.png' ,
+		});
 	});
+
 });

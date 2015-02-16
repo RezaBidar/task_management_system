@@ -26,9 +26,10 @@
     
     <!-- MetisMenu CSS -->
     <link href="<?php echo site_url('css/plugins/metisMenu/metisMenu.min.css') ?>" rel="stylesheet">
+    
+    <!-- MetisMenu CSS -->
+    <link href="<?php echo site_url('css/plugins/jalaliDatepicker/persian-datepicker-0.3.6.min.css') ?>" rel="stylesheet">
 
-    <!-- jalali Date picker -->
-    <link href="<?php echo site_url('css/plugins/jalaliDatepicker/bootstrap-datepicker.min.css') ?>" rel="stylesheet">
     
     <!-- multiselect -->
     <link href="<?php echo site_url('css/plugins/multiselect/bootstrap-multiselect.css') ?>" rel="stylesheet">

@@ -21,8 +21,8 @@
     
     
     <!-- Jalali Date Picke library -->
-    <script src="<?php echo site_url('js/plugins/jalaliDatepicker/bootstrap-datepicker.min.js') ?>"></script>
-    <script src="<?php echo site_url('js/plugins/jalaliDatepicker/bootstrap-datepicker.fa.min.js') ?>"></script>
+    <script src="<?php echo site_url('js/plugins/jalaliDatepicker/persian-date.js') ?>"></script>
+    <script src="<?php echo site_url('js/plugins/jalaliDatepicker/persian-datepicker-0.3.6.min.js') ?>"></script>
     
     
     <!-- multiselect library -->

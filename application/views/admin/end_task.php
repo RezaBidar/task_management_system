@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+?>
 <div id="page-wrapper">
 <div class="container col-md-10 col-lg-10 col-sm-10">
 <br>
@@ -9,9 +11,11 @@
 echo btform::form_open();
 
 
-
+echo btform::form_select('درجه اهمیت', 'priority', array(
+    '0' => 'انجام نشد' ,
+    '1' => 'انجام شد' ) , '' , 'class="form-control"') ;
 echo btform::form_input('تاریخ پایان' , array('name' => 'end_time' , 'class' => 'form-control datepicker')) ;
-echo '<div class="form-group"><label>امتیاز</label><div class="star_rate" id="alaki"></div></div>';
+echo '<div class="form-group"><label>امتیاز</label><div class="star_rate"></div></div>';
 echo btform::form_submit(array("name"=>"submit" , "class"=>"btn btn-primary" ) , "ذخیره");
 echo btform::form_hidden("base_url" , $base_url ) ;
 echo btform::form_close();
