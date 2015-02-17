@@ -50,12 +50,29 @@ class m_duty extends MY_Model{
         $this->db->join('parent' , 'dty_parent_child_id = prt_id') ;
         $this->db->join('who_is_where' , 'prt_employee_id = wiw_id') ;
         $this->db->join('user' , 'wiw_user_id = usr_id') ;
+        $this->db->where('dty_end_time IS NULL', null, false);
         
         $where = array(
             'dty_task_id' => $task_id   
         );
         
         return $this->get_by($where,FALSE,FALSE);
+    }
+    
+    /**
+     * return user info by duty id
+     * @param unknown $duty_id
+     */
+    public function getUserByDutyId($duty_id){
+        
+        $this->db->join('parent' , 'dty_parent_child_id = prt_id') ;
+        $this->db->join('who_is_where' , 'prt_employee_id = wiw_id') ;
+        $this->db->join('user' , 'wiw_user_id = usr_id') ;
+        $where = array(
+            'id' => $duty_id
+        );
+        
+        return $this->get_by($where,TRUE);
     }
         
 }

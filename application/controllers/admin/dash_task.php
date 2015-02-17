@@ -38,8 +38,8 @@ class dash_task extends Admin_Controller{
                 "label" => "تاریخ شروع" ,
                 "rules" => "required|xss_clean|trim"
             ),
-            "end_date" => array(
-                "field" => "end_time" ,
+            "due_date" => array(
+                "field" => "due_time" ,
                 "label" => "تاریخ پایان" ,
                 "rules" => "required|xss_clean|trim"
             ),
@@ -66,8 +66,8 @@ class dash_task extends Admin_Controller{
             $data = array(
                 'group_id' => $this->input->post('group_id') ,
                 'priority' => $this->input->post('pariority') ,
-                'start_time' => date('Y-m-d H:i:s') ,
-                'end_time' => date('Y-m-d H:i:s', strtotime('+1 year')) , //next year
+                'start_time' => $this->input->post('start_time') ,
+                'due_time' => $this->input->post('due_time') , //next year
                 'warning_date' => $this->input->post('warning_date') ,
                 'title' => $this->input->post('title') ,
                 'description' => $this->input->post('description') ,
@@ -83,7 +83,8 @@ class dash_task extends Admin_Controller{
             foreach ($this->input->post('employee_prt_id') as $parent_id){
                 $data = array(
                     'parent_child_id' => $parent_id ,
-                    'task_id' => $task_id
+                    'task_id' => $task_id ,
+                    'start_time' => $data["start_time"]
                 );
                 $this->m_duty->save($data) ;
             }
@@ -91,6 +92,7 @@ class dash_task extends Admin_Controller{
             $this->db->trans_complete();
 //             redirect('admin/dashboard');
 //             echo $this->db->last_query();
+            echo "sabt shod" ;
         }
         
         $this->data["title"] = "اضافه کردن وظیفه" ;
@@ -163,6 +165,7 @@ class dash_task extends Admin_Controller{
                 $this->data["employee_list"][$object->usr_id] = array(
                     'name' => $object->usr_fname . " " . $object->usr_lname ,
                     'avatar' => $object->usr_avatar ,
+                    'duty_id' => $object->dty_id 
                 );
             
             
@@ -180,6 +183,7 @@ class dash_task extends Admin_Controller{
             $this->data["wiw_id"] = $this->m_who_is_where->getWiwId($this->data["user_id"] , $group_id) ;
             
             $this->data["task_id"] = $task_id ;
+            $this->data["group_id"] = $group_id ;
         }
         
         //load views
@@ -314,10 +318,112 @@ class dash_task extends Admin_Controller{
     }
     
     public function end_task($task_id){
+        $rule = array(
+            "status" => array(
+                "field" => "status" ,
+                "label" => "نام گروه" ,
+                "rules" => "required|xss_clean|trim"
+            ) ,
+            "rate" => array(
+                "field" => "duty_score[]" ,
+                "label" => "امتیاز" ,
+                "rules" => "required|xss_clean|trim"
+            ) ,
+            "end_date" => array(
+                "field" => "end_date" ,
+                "label" => "تاریخ پایان" ,
+                "rules" => "required|xss_clean|trim"
+            ) 
+        
+        );
+        $this->form_validation->set_rules($rule);
+        if($this->form_validation->run() == TRUE){
+             
+            $data = array(
+                'group_id' => $this->input->post('group_id') ,
+                'priority' => $this->input->post('pariority') ,
+                'start_time' => $this->input->post('start_time') ,
+                'due_time' => $this->input->post('due_time') , //next year
+                'warning_date' => $this->input->post('warning_date') ,
+                'title' => $this->input->post('title') ,
+                'description' => $this->input->post('description') ,
+                 
+            );
+        
+            
+            $this->db->trans_start();
+            $task_id = $this->m_task->save($data);
+        
+            foreach ($this->input->post('employee_prt_id') as $parent_id){
+                $data = array(
+                    'parent_child_id' => $parent_id ,
+                    'task_id' => $task_id ,
+                    'start_time' => $data["start_time"]
+                );
+                $this->m_duty->save($data) ;
+            }
+        
+            $this->db->trans_complete();
+        }
+        
+        $employee_list_object = $this->m_duty->getUserByTaskId($task_id);
+        foreach ($employee_list_object as $key => $object)
+            $this->data["employee_list"][$object->dty_id] = array(
+                'name' => $object->usr_fname . " " . $object->usr_lname ,
+                'avatar' => $object->usr_avatar ,
+            );
+        
+        $this->data["title"] = 'پایان وظیفه' ;
+        $this->load->view('admin/components/header');
+        $this->load->view('admin/components/navbar' , $this->data);
+        $this->load->view('admin/end_task' , $this->data);
+        $this->load->view('admin/components/footer');
         
     }
     
-    public function end_duty($parent_id = NULL){
+    /**
+     * page payane dutye yek nafar
+     * group_id va task_id baraye redirect shodan niaz ast
+     * @param unknown $group_id
+     * @param unknown $task_id
+     * @param unknown $duty_id
+     */
+    public function end_duty($group_id , $task_id , $duty_id){
+        
+        $rule = array(
+            "end_time" => array(
+                "field" => "end_time" ,
+                "label" => "تاریخ پایان" ,
+                "rules" => "required|xss_clean|trim"
+            ) ,
+            "duty_id" => array(
+                "field" => "duty_id" ,
+                "label" => "شماره" ,
+                "rules" => "required|xss_clean|trim"
+            ) ,
+            "rate" => array(
+                "field" => "duty_score[{$duty_id}]" ,
+                "label" => "امتیاز" ,
+                "rules" => "required|xss_clean|trim"
+            ) ,
+        
+        );
+        $this->form_validation->set_rules($rule);
+        if($this->form_validation->run() == TRUE){
+            
+            $data = array(
+                'end_time' => convertMyJalaliToGregorian($this->input->post('end_time')) ,
+                'rate' => $this->input->post("duty_score")[$duty_id] ,
+            );
+            $this->m_duty->save($data , $this->input->post('duty_id')) ;
+            
+            redirect('admin/dash_task/task_list/' . $group_id . '/' . $task_id) ;
+        }
+        
+        $employee = $this->m_duty->getUserByDutyId($duty_id);
+        $this->data["title"] = "حذف " . $employee->usr_fname . " " . $employee->usr_lname . " از وظیفه";
+        $this->data["duty_id"] = $duty_id ;
+        
         $this->load->view('admin/components/header');
         $this->load->view('admin/components/navbar' , $this->data);
         $this->load->view('admin/remove_duty' , $this->data);

@@ -5,7 +5,8 @@ echo form_hidden("task_id" , $task_id) ;
 ?>
 <div id="page-wrapper">
 <div class="container col-md-10 col-lg-10 col-sm-10">
-<h1><span class="glyphicon glyphicon-send"></span> <?php if(isset($title)) echo $title; else echo "بدون عنوان"?></h1>
+<h3><span class="glyphicon glyphicon-send"></span> <?php if(isset($title)) echo $title; else echo "بدون عنوان"?>
+    <a href="<?php echo site_url('admin/dash_task/end_task/' . $task_id)?>"><span class=" btn  btn-primary">پایان وظیفه</span></a></h3>
 <br>
 
 
@@ -43,7 +44,7 @@ echo form_hidden("task_id" , $task_id) ;
                                             <div class="media">
                                                 
                                                     <img class="media-object img-circle " style="max-height:40px;"  src="<?php echo btform::show_pic($feedback["avatar"])?>" />
-                                                    <small class="text-muted"><?php echo $feedback["name"] . " | " . $feedback["time"]?></small>
+                                                    <small class="text-muted"><?php echo $feedback["name"] . " | " . jdate('H:i:s  Y/m/d' , strtotime($feedback["time"]))?></small>
                                                 
                                                 <div class="media-body" >
                                                         <p class="alert alert-warning"><?php echo $feedback["text"]?></p>
@@ -84,7 +85,7 @@ echo form_hidden("task_id" , $task_id) ;
                                                     <img class="media-object img-circle" style="max-height:40px;" src="<?php echo btform::show_pic($employee["avatar"])?>" />
                                                 </a>
                                                 <div class="media-body" >
-                                                    <h5><?php echo $employee["name"]?></h5>
+                                                    <h5><?php echo $employee["name"]?>  <a href="<?php echo site_url("admin/dash_task/end_duty/{$group_id}/{$task_id}/" . $employee["duty_id"] )?>" class="btn btn-danger btn-xs glyphicon glyphicon-remove" title="حذف"></a></h5>
                                                     
                                                    <small class="text-muted">تاریخ آخرین لوگین</small>
                                                 </div>

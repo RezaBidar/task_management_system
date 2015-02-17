@@ -9,6 +9,8 @@ function __autoload($classname){
         if(file_exists($file)&&is_file($file)) @include_once $file;
     }
 }
+
+date_default_timezone_set("Asia/Tehran");
 /*
 |--------------------------------------------------------------------------
 | Base Site URL

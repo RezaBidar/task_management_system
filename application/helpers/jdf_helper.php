@@ -599,3 +599,20 @@ function jalali_to_gregorian($j_y,$j_m,$j_d,$mod=''){
 /* [ jdf.php ] version 2.55 ?> Download new version from [ http://jdf.scr.ir ] */
  
 //function jalali_date_to_gregorian_datetime($)
+
+//reza bidar costum functions
+
+/**
+ * yek tarikhe jalali ba formatii ke too form ha hast migire
+ * va yek tarikhe gregorian ba formatii ke beshe to table zakhire kard barmigardoone
+ * jalali(YYYY-m-d HH-mm-ss) to gregorian(YYYY-m-d HH-mm-ss)
+ * @param string $datetime
+ */
+function convertMyJalaliToGregorian($datetime){
+    $date = explode(" ", $datetime)[0] ;
+    $time = explode(" ", $datetime)[1] ;
+    $date = explode("-", $date) ;
+    $gregorian =  jalali_to_gregorian(intval($date[0]), intval($date[1]), intval($date[2])) ;
+    return $gregorian[0] . "-" . $gregorian[1] . "-" . $gregorian[2] . " " . $time ; 
+}
+
