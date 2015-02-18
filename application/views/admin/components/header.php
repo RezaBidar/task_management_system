@@ -7,9 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Reza Bidar">
+    <link rel="icon" href="<?php echo site_url('img/fav.png')?>" type="image/gif" sizes="16x16">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>نرم افزار مدیریت وظایف کارمندان</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo site_url('css/bootstrap.min.css') ?>" rel="stylesheet">

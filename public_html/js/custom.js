@@ -46,7 +46,8 @@ $(document).ready(function(){
 	
 	$("#add_feedback").click(function(){
 		var text = $.trim($('#feedback_text').val()) ;
-		
+		var type = 0 ;
+		if($("#feedback_warning").is(':checked')) type = 1 ;
 		if(text.length > 0){
 			var url = $("input[name=url]").val();
 			var wiw_id = $("input[name=wiw_id]").val();
@@ -57,7 +58,8 @@ $(document).ready(function(){
 				data: {
 					text: text ,
 					wiw_id : wiw_id ,
-					task_id : task_id
+					task_id : task_id ,
+					type : type ,
 					},
 				success : function(result){
 					//bootbox.alert(text);

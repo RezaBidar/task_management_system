@@ -66,8 +66,8 @@ class dash_task extends Admin_Controller{
             $data = array(
                 'group_id' => $this->input->post('group_id') ,
                 'priority' => $this->input->post('pariority') ,
-                'start_time' => $this->input->post('start_time') ,
-                'due_time' => $this->input->post('due_time') , //next year
+                'start_time' => convertMyJalaliToGregorian($this->input->post('start_time')) ,
+                'due_time' => convertMyJalaliToGregorian($this->input->post('due_time')) , //next year
                 'warning_date' => $this->input->post('warning_date') ,
                 'title' => $this->input->post('title') ,
                 'description' => $this->input->post('description') ,
@@ -131,7 +131,6 @@ class dash_task extends Admin_Controller{
      * @param int $group_id
      */
     public function task_list($group_id = NULL , $task_id = NULL){
-        
         if($group_id == NULL){
             $this->data["table"] = $this->m_group->getTable(NULL , NULL , "admin/dash_task/task_list");
             $view = 'show_list' ;
@@ -140,25 +139,31 @@ class dash_task extends Admin_Controller{
             $view = 'show_list' ;
         }else{
             
-            $seen_message_object = $this->m_feedback->getSeenMessage($task_id);
-            $this->data["seen_message"] = array();
-            foreach ($seen_message_object as $key => $object)
-                $this->data["seen_message"][$object->fbk_id] = array(
+            $message_object = $this->m_feedback->getMessage($task_id);
+            $this->data["message"] = array();
+            foreach ($message_object as $key => $object)
+                $this->data["message"][$object->fbk_id] = array(
                     'text' => $object->fbk_text ,
                     'name' => $object->usr_fname . " " . $object->usr_lname ,
                     'time' => $object->fbk_created_time ,
                     'avatar' => $object->usr_avatar ,
+                    'warning' => ($object->fbk_type == 0) ? FALSE : TRUE ,
                 );
             
             $not_seen_message_object = $this->m_feedback->getNotSeenMessage($task_id);
-            $this->data["not_seen_message"] = array() ;
-            foreach ($not_seen_message_object as $key => $object)
-                $this->data["not_seen_message"][$object->fbk_id] = array(
-                    'text' => $object->fbk_text ,
-                    'name' => $object->usr_fname . " " . $object->usr_lname ,
-                    'time' => $object->fbk_created_time ,
-                    'avatar' => $object->usr_avatar ,
+            $rows = array() ;
+            $now = date('Y-m-d H:i:s');
+            foreach ($not_seen_message_object as $key => $object){
+                $data = array(
+                    'feedback_id' => $object->fbk_id ,
+                    'user_id' => $object->usr_id ,
+                    'time' => $now ,
                 );
+                array_push($rows , $data) ;   
+            }
+            if(sizeof($rows) > 0){
+                $this->m_who_did_see->insert_batch($rows) ;
+            }
             
             $employee_list_object = $this->m_duty->getUserByTaskId($task_id);
             foreach ($employee_list_object as $key => $object)
@@ -288,8 +293,8 @@ class dash_task extends Admin_Controller{
      */
     public function add_feedback(){
         $task_id = $this->input->post('task_id') ;
-        //$text = utf8_encode(strip_tags(trim($this->input->post('text')))) ;
         $text = $this->input->post('text') ;
+        $type = $this->input->post('type') ;
         $wiw_id = $this->input->post('wiw_id') ;
         if(!(is_numeric($task_id) && strlen($text) > 0)) {
             $this->output->set_status_header('406'); 
@@ -299,6 +304,7 @@ class dash_task extends Admin_Controller{
             'task_id' => $task_id ,
             'text' => $text ,
             'wiw_id' => $wiw_id ,
+            'type' => $type ,
         );
         $this->m_feedback->save($data) ;
     }
@@ -329,8 +335,8 @@ class dash_task extends Admin_Controller{
                 "label" => "امتیاز" ,
                 "rules" => "required|xss_clean|trim"
             ) ,
-            "end_date" => array(
-                "field" => "end_date" ,
+            "end_time" => array(
+                "field" => "end_time" ,
                 "label" => "تاریخ پایان" ,
                 "rules" => "required|xss_clean|trim"
             ) 
@@ -340,30 +346,26 @@ class dash_task extends Admin_Controller{
         if($this->form_validation->run() == TRUE){
              
             $data = array(
-                'group_id' => $this->input->post('group_id') ,
-                'priority' => $this->input->post('pariority') ,
-                'start_time' => $this->input->post('start_time') ,
-                'due_time' => $this->input->post('due_time') , //next year
-                'warning_date' => $this->input->post('warning_date') ,
-                'title' => $this->input->post('title') ,
-                'description' => $this->input->post('description') ,
+                'status' => $this->input->post('status') ,
+                'end_time' => convertMyJalaliToGregorian($this->input->post('end_time')) ,
                  
             );
         
             
             $this->db->trans_start();
-            $task_id = $this->m_task->save($data);
+            $task_id = $this->m_task->save($data , $task_id);
         
-            foreach ($this->input->post('employee_prt_id') as $parent_id){
+            foreach ($this->input->post('duty_score') as $duty_id => $rate){
                 $data = array(
-                    'parent_child_id' => $parent_id ,
-                    'task_id' => $task_id ,
-                    'start_time' => $data["start_time"]
+                    'rate' => $rate ,
+                    'end_time' => $data["end_time"]
                 );
-                $this->m_duty->save($data) ;
+                $this->m_duty->save($data , $duty_id) ;
             }
         
             $this->db->trans_complete();
+            
+            redirect('admin/dash_task/task_list');
         }
         
         $employee_list_object = $this->m_duty->getUserByTaskId($task_id);
@@ -428,5 +430,13 @@ class dash_task extends Admin_Controller{
         $this->load->view('admin/components/navbar' , $this->data);
         $this->load->view('admin/remove_duty' , $this->data);
         $this->load->view('admin/components/footer');
+    }
+    
+    /**
+     * liste afradi ke in feedback ro didand + time didan
+     * @param int $feedback_id
+     */
+    public function whoSeenFeedbak($feedback_id){
+        
     }
 }

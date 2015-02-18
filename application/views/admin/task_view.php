@@ -30,13 +30,14 @@ echo form_hidden("task_id" , $task_id) ;
 </div>
 
 <div class="col-md-8">
+        
         <div class="panel panel-info">
             <div class="panel-heading">
                 گزارش ها
             </div>
             <div class="panel-body">
 <ul class="media-list">
-<?php foreach ($not_seen_message as $id => $feedback):?>
+<?php foreach ($message as $id => $feedback):?>
                                     <li class="media">
 
                                         <div class="media-body">
@@ -47,7 +48,7 @@ echo form_hidden("task_id" , $task_id) ;
                                                     <small class="text-muted"><?php echo $feedback["name"] . " | " . jdate('H:i:s  Y/m/d' , strtotime($feedback["time"]))?></small>
                                                 
                                                 <div class="media-body" >
-                                                        <p class="alert alert-warning"><?php echo $feedback["text"]?></p>
+                                                        <p class="alert <?php echo ($feedback["warning"]) ? "alert-danger" : "alert-warning"?>"><?php echo $feedback["text"]?></p>
                                                    
                                                     <hr />
                                                 </div>
@@ -64,14 +65,26 @@ echo form_hidden("task_id" , $task_id) ;
                                     <span class="input-group-btn">
                                         <button class="btn btn-info" id="add_feedback" type="button">ارسال</button>
                                     </span>
-                                </div>
+                </div>
+                <?php echo btform::form_checkbox('اخطار' , array("name" => "type" , "value" => "1" , "id" => "feedback_warning"))?>
             </div>
         </div>
     </div>
     <div class="col-md-4">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                وضعیت
+            </div>
+            <div class="panel-body">
+                <p>نوع وظیفه : مهم</p>
+                <p>وضعیت انجام کار: در حال انجام</p>
+                <p>تغییر دهنده حالت: عباس</p>
+                <button class="btn btn-success" type="button">در حال به حالت پیگیری</button>
+            </div>
+        </div>
           <div class="panel panel-primary">
             <div class="panel-heading">
-               USERS
+               افراد
             </div>
             <div class="panel-body">
                 <ul class="media-list">

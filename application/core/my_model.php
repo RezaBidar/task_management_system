@@ -96,7 +96,33 @@ class MY_Model extends CI_Model{
 		}
 	}
 	
-	
+	public function insert_batch($data){
+	    
+	    $now = date('Y-m-d H:i:s');
+	    
+	    foreach ($data as $key => $val){
+	        
+	        //set user ip
+	        if($this->_creator_ip) $val["creator_ip"] = $this->getUserIP() ;
+	        if($this->_modifier_id) $val["modifier_ip"] = $this->getUserIP() ;
+	        
+	         
+	        //set user id
+	        if($this->_creator_id) $val["creator_id"] = $this->session->userdata('id') ;
+	        if($this->_modifier_id) $val["modifier_id"] = $this->session->userdata('id') ;
+	        
+	         
+	        //set timestamp
+	        if($this->_timestamp == TRUE){        
+	            $val['created_time'] = $now;
+	            $val['modified_time'] = $now ;
+	        }
+	        
+	        $data[$key] = $this->setPrefix($val) ; 
+	    }
+	    
+	    $this->db->insert_batch($this->_table_name, $data);
+	}
 	
 	/**
 	 * @return the $_table_name
