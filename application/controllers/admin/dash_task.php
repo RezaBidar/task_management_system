@@ -156,7 +156,7 @@ class dash_task extends Admin_Controller{
             foreach ($not_seen_message_object as $key => $object){
                 $data = array(
                     'feedback_id' => $object->fbk_id ,
-                    'user_id' => $object->usr_id ,
+                    'user_id' => $this->data["user_id"] ,
                     'time' => $now ,
                 );
                 array_push($rows , $data) ;   
@@ -166,6 +166,7 @@ class dash_task extends Admin_Controller{
             }
             
             $employee_list_object = $this->m_duty->getUserByTaskId($task_id);
+            $this->data["employee_list"] = array() ;
             foreach ($employee_list_object as $key => $object)
                 $this->data["employee_list"][$object->usr_id] = array(
                     'name' => $object->usr_fname . " " . $object->usr_lname ,
@@ -179,11 +180,17 @@ class dash_task extends Admin_Controller{
             $this->data["task"] = array(
                     'id' => $task_object->tsk_id ,
                     'title' => $task_object->tsk_title ,
-                    'description' => $task_object->tsk_description    
+                    'description' => $task_object->tsk_description ,
+                    'status' => $task_object->tsk_status ,
+                    'status_changer' => $this->m_user->getUserFullName($task_object->tsk_status_changer) ,
+                    'pariority' => $task_object->tsk_priority ,
+                    'due_time' => $task_object->tsk_due_time ,
+                    'start_time' => $task_object->tsk_start_time ,   
             );
             $view = 'task_view' ;
             
-            $this->data["url"] = site_url('admin/dash_task/add_feedback');
+            $this->data["addfeedback_url"] = site_url('admin/dash_task/add_feedback');
+            $this->data["changestatus_url"] = site_url('admin/dash_task/change_status');
             
             $this->data["wiw_id"] = $this->m_who_is_where->getWiwId($this->data["user_id"] , $group_id) ;
             
@@ -436,7 +443,20 @@ class dash_task extends Admin_Controller{
      * liste afradi ke in feedback ro didand + time didan
      * @param int $feedback_id
      */
-    public function whoSeenFeedbak($feedback_id){
+    public function who_seen_feedbak($feedback_id){
         
+    }
+    
+    /**
+     * in tabe baraye ajax esteefade mishavad va felan status ra be halate peygiri taghir midahad ;)
+     */
+    public function change_status(){
+        $data = array(
+            'status' => $this->input->post('status') ,
+            'status_changer' => $this->data["user_id"] ,
+        );
+        $task_id = $this->input->post('task_id') ;
+        
+        $this->m_task->save($data , $task_id);
     }
 }

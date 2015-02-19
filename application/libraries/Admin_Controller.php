@@ -13,6 +13,7 @@ class Admin_Controller extends MY_Controller {
 		$this->data["menu"] = config_item("admin_menu");
 		$this->data["base_url"] = base_url() ;
 		$this->data["user_id"] = $this->session->userdata('id') ;
+		$this->data["user_fullname"] = $this->session->userdata('fname') . " " . $this->session->userdata('lname') ;
 		
 		// Get the current logged in user (however your app does it)
 // 		$user_id = $this->session->userdata('user_id');

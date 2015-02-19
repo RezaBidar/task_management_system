@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-echo form_hidden("url" , $url) ;
+echo form_hidden("addfeedback_url" , $addfeedback_url) ;
+echo form_hidden("changestatus_url" , $changestatus_url) ;
 echo form_hidden("wiw_id" , $wiw_id) ;
 echo form_hidden("task_id" , $task_id) ;
 ?>
@@ -48,7 +49,7 @@ echo form_hidden("task_id" , $task_id) ;
                                                     <small class="text-muted"><?php echo $feedback["name"] . " | " . jdate('H:i:s  Y/m/d' , strtotime($feedback["time"]))?></small>
                                                 
                                                 <div class="media-body" >
-                                                        <p class="alert <?php echo ($feedback["warning"]) ? "alert-danger" : "alert-warning"?>"><?php echo $feedback["text"]?></p>
+                                                        <p class="alert <?php echo ($feedback["warning"]) ? "alert-danger" : "alert-message"?>"><?php echo $feedback["text"]?></p>
                                                    
                                                     <hr />
                                                 </div>
@@ -71,20 +72,30 @@ echo form_hidden("task_id" , $task_id) ;
         </div>
     </div>
     <div class="col-md-4">
-        <div class="panel panel-warning">
+        <div class="panel <?php echo ($task["status"] == 1)? 'panel-warning' : 'panel-info' ?>">
             <div class="panel-heading">
                 وضعیت
             </div>
             <div class="panel-body">
                 <p>نوع وظیفه : مهم</p>
+                
+                
+                <?php if($task["status_changer"] != NULL):?>
+                <p>تغییر دهنده حالت: <?php echo $task["status_changer"]?></p>
+                <?php endif;?>
+                
+                <?php if($task["status"] == 1):?>
                 <p>وضعیت انجام کار: در حال انجام</p>
-                <p>تغییر دهنده حالت: عباس</p>
-                <button class="btn btn-success" type="button">در حال به حالت پیگیری</button>
+                <?php else: ?>
+                <p>وضعیت انجام کار: عدم پیگیری</p>
+                <button class="btn btn-warning" type="button" id="changetaskstatus">در حال به حالت پیگیری</button>
+                <?php endif;?>
             </div>
         </div>
           <div class="panel panel-primary">
             <div class="panel-heading">
                افراد
+               <span class="label label-success glyphicon glyphicon-plus">اضافه کردن کارمند</span>
             </div>
             <div class="panel-body">
                 <ul class="media-list">

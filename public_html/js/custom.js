@@ -49,7 +49,7 @@ $(document).ready(function(){
 		var type = 0 ;
 		if($("#feedback_warning").is(':checked')) type = 1 ;
 		if(text.length > 0){
-			var url = $("input[name=url]").val();
+			var url = $("input[name=addfeedback_url]").val();
 			var wiw_id = $("input[name=wiw_id]").val();
 			var task_id = $("input[name=task_id]").val();
 			$.ajax({
@@ -99,5 +99,24 @@ $(document).ready(function(){
 				starOn  : $("input[name=base_url]").val() + 'js/plugins/raty/images/star-on.png' ,
 		});
 	});
+	
+	$("#changetaskstatus").click(function(){
+		var url = $("input[name=changestatus_url]").val();
+		$.ajax({
+			url : url ,
+			method : "post" ,
+			data: {
+				status: 1 ,
+				task_id :$("input[name=task_id]").val(),
+				},
+			success : function(result){
+				//bootbox.alert(text);
+				location.reload();
+				
+			}
+		});
+	});
+	
+	
 
 });

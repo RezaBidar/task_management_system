@@ -368,6 +368,18 @@ class m_user extends MY_Model{
 		
 		return $table->getView($thead, $tbody, $this->_primary_key, $data , $update_url, $delete_url , $select_url );
     }
+    
+    /**
+     * esmo famile karbar ro barmigardoone
+     * @param int user_id
+     * @return string fullname
+     * @access public 
+     */
+    public function getUserFullName($user_id){
+        if($user_id == NULL) return NULL ;
+        $user = $this->get($user_id,TRUE);
+        return $user->usr_fname . " " . $user->usr_lname ;
+    }
 }
 
 ?>

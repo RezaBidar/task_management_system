@@ -7,7 +7,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php site_url('admin/dashboard')?>"> ETMS <small class="text-muted"> سامانه  مدیریت وظابف کارمندان </small> </a>
+                <a class="navbar-brand" href="<?php site_url('admin/dashboard')?>"> ETMS <small class="text-muted"> سامانه  مدیریت وظابف کارمندان <span>(<?php echo $user_fullname ?>)</span></small> </a>
+                
             </div>
             <!-- /.navbar-header -->
 

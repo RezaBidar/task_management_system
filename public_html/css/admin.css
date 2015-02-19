@@ -2,3 +2,9 @@
 	height : 300px !important;
 	margin-bottom : 10px ;
 }
+
+.alert-message {
+    background-color: #d7ffff;
+    border-color: #00ffff;
+    color: #351fb6;
+}

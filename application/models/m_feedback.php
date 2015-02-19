@@ -39,7 +39,7 @@ class m_feedback extends MY_Model{
         /* "SELECT * FROM `rz_feedback`
          WHERE `fbk_id` IN
          (SELECT `wds_feedback_id` FROM `rz_who_did_see`
-         WHERE `wds_user_id` = 1 ) AND `fbk_task_id` = 1 AND `fbk_creator_id` = 1 " ;
+         WHERE `wds_user_id` = 1 ) AND `fbk_task_id` = 7 AND `fbk_creator_id` != 6 " ;
          */
         
         $user_id = $this->session->userdata('id') ;
@@ -50,7 +50,6 @@ class m_feedback extends MY_Model{
             WHERE `fbk_id` NOT IN 
             (SELECT `wds_feedback_id` FROM `{$this->db->dbprefix('who_did_see')}` 
             WHERE `wds_user_id` = {$user_id} ) AND `fbk_task_id` = {$task_id} AND `fbk_creator_id` != {$user_id} " ;
-        
         return $this->db->query($query)->result() ;
         
        
