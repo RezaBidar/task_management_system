@@ -74,6 +74,64 @@ class m_duty extends MY_Model{
         
         return $this->get_by($where,TRUE);
     }
+    
+    /**
+     * @param string $master_id /// dar vaghe wiw_master_id
+     * @param string $member
+     * @param string $task_id
+     * @return unknown
+     */
+    public function getUserObjectByTask( $task_id , $master_id){
+    
+    	
+    
+    	/*$query =   "select * from `rz_user`
+    	 join `rz_who_is_where` on `wiw_user_id` = `usr_id`
+    	join `rz_parent` on `prt_employee_id` = `wiw_id`
+    	where `usr_id` in
+    	(select `usr_id` from `rz_duty`
+    			join `rz_parent` on `dty_parent_child_id` = `prt_id`
+    			join `rz_who_is_where` on `prt_employee_id` = `wiw_id`
+    			join `rz_user` on `wiw_user_id` = `usr_id`
+    			where `prt_master_id` = 21 and `dty_task_id` = 1 )
+    	and `prt_master_id` = 21 " ; */
+    
+    	$query =   "select * from `{$this->db->dbprefix('user')}`
+    	join `{$this->db->dbprefix('who_is_where')}` on `wiw_user_id` = `usr_id`
+    	join `{$this->db->dbprefix('parent')}` on `prt_employee_id` = `wiw_id`
+    	where `usr_id` NOT IN
+    	(select `usr_id` from `{$this->db->dbprefix('duty')}`
+    	join `{$this->db->dbprefix('parent')}` on `dty_parent_child_id` = `prt_id`
+    	join `{$this->db->dbprefix('who_is_where')}` on `prt_employee_id` = `wiw_id`
+    	join `{$this->db->dbprefix('user')}` on `wiw_user_id` = `usr_id`
+    	where `prt_master_id` = {$master_id} and `dty_task_id` = {$task_id} and `dty_end_time` IS NULL)
+    	and `prt_master_id` = {$master_id} " ;
+
+    	$result = $this->db->query($query)->result();
+    	//echo $this->db->last_query();
+    	//echo "reza" ;
+    	return $result ;
+    }
+    
+    /**
+     *
+     * @param unknown $task
+     * @param unknown $master_id
+     * @param string $member
+     * @return multitype:multitype:string NULL
+     */
+    public function getUserByTask($task ,$master_id){
+    	$result = $this->getUserObjectByTask($task , $master_id) ;
+    
+    	$answer = array() ;
+    	foreach($result as $key => $val){
+    		$answer[$val->prt_id] = array(
+    				'employee_id' => $val->usr_employee_id ,
+    				'name' => $val->usr_fname . ' ' . $val->usr_lname
+    		);
+    	}
+    	return $answer ;
+    }
         
 }
 

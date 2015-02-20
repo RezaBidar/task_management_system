@@ -117,6 +117,20 @@ $(document).ready(function(){
 		});
 	});
 	
-	
+	$(".who_did_see").click(function (){
+		var url = $("input[name=whodidsee_url]").val();
+		feedback_id = $(this).attr('value') ;
+		$.ajax({
+			url : url ,
+			method : "post" ,
+			data: {
+				feedback_id: feedback_id ,
+				},
+			success : function(result){
+				bootbox.alert(result);
+				
+			}
+		});
+	});
 
 });

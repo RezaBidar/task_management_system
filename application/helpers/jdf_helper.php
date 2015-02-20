@@ -612,6 +612,7 @@ function convertMyJalaliToGregorian($datetime){
     $date = explode(" ", $datetime)[0] ;
     $time = explode(" ", $datetime)[1] ;
     $date = explode("-", $date) ;
+    var_dump($date);
     $gregorian =  jalali_to_gregorian(intval($date[0]), intval($date[1]), intval($date[2])) ;
     return $gregorian[0] . "-" . $gregorian[1] . "-" . $gregorian[2] . " " . $time ; 
 }

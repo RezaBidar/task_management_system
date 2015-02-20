@@ -171,7 +171,8 @@ class dash_task extends Admin_Controller{
                 $this->data["employee_list"][$object->usr_id] = array(
                     'name' => $object->usr_fname . " " . $object->usr_lname ,
                     'avatar' => $object->usr_avatar ,
-                    'duty_id' => $object->dty_id 
+                    'duty_id' => $object->dty_id ,
+                	'last_activity' => $object->usr_last_login ,
                 );
             
             
@@ -185,14 +186,26 @@ class dash_task extends Admin_Controller{
                     'status_changer' => $this->m_user->getUserFullName($task_object->tsk_status_changer) ,
                     'pariority' => $task_object->tsk_priority ,
                     'due_time' => $task_object->tsk_due_time ,
-                    'start_time' => $task_object->tsk_start_time ,   
+                    'start_time' => $task_object->tsk_start_time ,
+            		'creator_id' => $task_object->tsk_creator_id ,   
             );
             $view = 'task_view' ;
             
             $this->data["addfeedback_url"] = site_url('admin/dash_task/add_feedback');
             $this->data["changestatus_url"] = site_url('admin/dash_task/change_status');
+            $this->data["whodidsee_url"] = site_url('admin/dash_task/who_did_see');
             
             $this->data["wiw_id"] = $this->m_who_is_where->getWiwId($this->data["user_id"] , $group_id) ;
+            $this->data["master_wiw_id"] = $this->m_who_is_where->getWiwId($this->data["task"]["creator_id"] , $group_id) ;
+            
+            
+            $master_object = $this->m_user->get($this->data["task"]["creator_id"]) ;
+            $this->data["master"] = array(
+            		'name' => $master_object->usr_fname . " " . $master_object->usr_lname ,
+            		'avatar' => $master_object->usr_avatar ,
+            		'last_activity' => $master_object->usr_last_login ,
+            );
+            
             
             $this->data["task_id"] = $task_id ;
             $this->data["group_id"] = $group_id ;
@@ -458,5 +471,52 @@ class dash_task extends Admin_Controller{
         $task_id = $this->input->post('task_id') ;
         
         $this->m_task->save($data , $task_id);
+    }
+    
+    /**
+     * dar in controller employee be task ezafe mishavad
+     */
+    public function add_employee($task_id){
+    	$task = $this->m_task->get($task_id);
+    	$now = date('Y-m-d H:i:s');
+    	if($this->input->post('submit')){
+    		
+    		$this->db->trans_start();
+    	
+    		foreach ($this->input->post('parent_child_id') as $parent_id){
+    			$data = array(
+    					'task_id' => $task_id ,
+    					'parent_child_id' => $parent_id ,
+    					'start_time' => $now
+    			);
+    			$this->m_duty->save($data) ;
+    		}
+    	
+    		$this->db->trans_complete();
+    	
+    		redirect('admin/dash_task/task_list/' . $task->tsk_group_id . '/' . $task_id);
+    		
+    	}
+    	
+    	$this->data["master_id"] = $this->m_who_is_where->getWiwId($this->session->userdata('id') , $task->tsk_group_id);
+    	$this->data["membered"] = $this->m_duty->getUserByTask($task_id , $this->data["master_id"]) ;
+    	 
+    	//var_dump($this->data);
+    	$this->load->view('admin/components/header');
+    	$this->load->view('admin/components/navbar' , $this->data);
+    	$this->load->view('admin/add_employee_to_task' , $this->data);
+    	$this->load->view('admin/components/footer');
+    }
+    
+    /**
+     * in tabe baraye ajax estefade mishavad va ashkhasi ke feedbak ro dide bashand hamrah ba zamane didan barmigardanand
+     */
+    public function who_did_see(){
+    	$feedback_id = $this->input->post('feedback_id') ;
+    	$this->db->join('user' , 'usr_id = wds_user_id');
+    	$users = $this->m_who_did_see->get_by(array('feedback_id' => $feedback_id)) ;
+    	foreach ($users as $key => $user){
+    		echo '<li>' . $user->usr_fname . ' ' . $user->usr_lname . ' -- ' . jdate('H:i:s  Y/m/d' ,strtotime($user->wds_time)) . '</li>' ; 
+    	}
     }
 }

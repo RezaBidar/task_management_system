@@ -310,7 +310,6 @@ class m_user extends MY_Model{
         where `prt_master_id` = {$master_id} and `dty_task_id` = {$task_id} )
         and `prt_master_id` = {$master_id} " ;
     
-    
         $result = $this->db->query($query)->result();
         //echo $this->db->last_query();
         //echo "reza" ;

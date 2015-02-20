@@ -16,6 +16,7 @@ class m_feedback extends MY_Model{
 
         $this->db->join('who_is_where' , 'wiw_id = fbk_wiw_id') ;
         $this->db->join('user' , 'wiw_user_id = usr_id') ;
+        $this->db->order_by('fbk_created_time' , 'asc') ;
         return  $this->get_by(array('task_id' => $task_id ));
     }
     

@@ -22,19 +22,20 @@ class Admin_Controller extends MY_Controller {
 		
 		// If you only want to update in intervals, check the last_activity.
 		// You may need to load the date helper, or simply use time() instead.
-// 		$time_since = now() - $this->session->userdata('last_activity');
-// 		$interval = 300;
+		$time_since = now() - $this->session->userdata('last_activity');
+		$interval = 300;
 		
 		// Do nothing if last activity is recent
-// 		if ($time_since < $interval) return;
-		
-		// Update database
-// 		$updated = $this->db
-// 		->set('last_activity', now())
-// 		->where('id', $user_id)
-// 		->update('users');
-		
-// 		// Log errors if you please
-// 		$updated or log_message('error', 'Failed to update last activity.');
+		if ($time_since < $interval) {
+			
+			// Update database
+			$updated = $this->db
+			->set('usr_last_login', date('Y-m-d H:i:s'))
+			->where('usr_id', $this->data["user_id"])
+			->update('user');
+			
+			// Log errors if you please
+			$updated or log_message('error', 'Failed to update last activity.');
+		}
 	}
 }
