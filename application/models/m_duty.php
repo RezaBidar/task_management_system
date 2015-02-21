@@ -132,6 +132,30 @@ class m_duty extends MY_Model{
     	}
     	return $answer ;
     }
+    
+    /**
+     * 
+     * @param string $group_id
+     * @param string $user_id
+     */
+    public function getAllUserDuty($user_id , $group_id = NULL ){
+        $this->db->join('task' , 'tsk_id = dty_task_id');
+        $this->db->join('parent' , 'prt_id = dty_parent_child_id');
+        $this->db->join('who_is_where' , 'wiw_id = prt_employee_id');
+        
+        $this->db->where('wiw_end_date IS NULL' , NULL , FALSE);
+        $this->db->where('prt_end_date IS NULL' , NULL , FALSE);
+        $this->db->where('dty_end_time IS NULL' , NULL , FALSE);
+        $this->db->where('tsk_end_time IS NULL' , NULL , FALSE);
+        $this->db->where('tsk_status <' , 2);
+        $this->db->where('wiw_user_id' , $user_id);
+        if($group_id) $this->db->where('tsk_group_id' , $group_id) ;
+        
+        return $this->get();
+        
+    }
+    
+    
         
 }
 

@@ -53,7 +53,7 @@ echo form_hidden("task_id" , $task_id) ;
                                                     <img class="media-object img-circle " style="max-height:40px;"  src="<?php echo btform::show_pic($feedback["avatar"])?>" />
                                                     <small class="text-muted"><?php echo $feedback["name"] . " | " . jdate('H:i:s  Y/m/d' , strtotime($feedback["time"]))?>
                                                     <?php if($wiw_id == $master_wiw_id):?>  
-                                                    	<a href="#" value="<?php echo $id //feedback_id this is in foreach ?>" class="who_did_see"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                                    	<a href="#" id="wds_<?php echo $id //feedback_id this is in foreach ?>" class="who_did_see"><span class="glyphicon glyphicon-eye-open"></span></a>
                                                     <?php endif;?> 
                                                     </small>
                                                 

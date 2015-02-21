@@ -119,7 +119,7 @@ $(document).ready(function(){
 	
 	$(".who_did_see").click(function (){
 		var url = $("input[name=whodidsee_url]").val();
-		feedback_id = $(this).attr('value') ;
+		feedback_id = $(this).attr('id').substring(4) ;
 		$.ajax({
 			url : url ,
 			method : "post" ,
@@ -127,7 +127,10 @@ $(document).ready(function(){
 				feedback_id: feedback_id ,
 				},
 			success : function(result){
-				bootbox.alert(result);
+				if(result)
+					bootbox.alert(result);
+				else
+					bootbox.alert('کسی ندیده');
 				
 			}
 		});

@@ -43,6 +43,21 @@ class m_task extends MY_Model{
         $this->db->where('tsk_group_id' , $group_id) ;
         return $this->getTable($update_url , $delete_url , $select_url) ;
     }
+    
+    /**
+     * liste tamame taskhaii ke karbar sakhte va faAl hastand ra barmigadanad
+     * @param integer $user_id
+     * @param integer $group_id
+     */
+    public function getAllUserCreatedTask($user_id , $group_id = NULL){
+        
+        $this->db->where('tsk_creator_id' , $user_id);
+        if($group_id) $this->db->where('tsk_group_id' , $group_id);
+        $this->db->where('tsk_end_time IS NULL' , NULL , FALSE) ;
+        
+        return $this->get();
+        
+    }
 }
 
 ?>

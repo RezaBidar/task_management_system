@@ -45,12 +45,12 @@ class MY_Model extends CI_Model{
 	public function save($data,$id = NULL,$ai = TRUE){
 	    
 	    //set user ip
-	    if($id || $this->_creator_ip) $data["creator_ip"] = $this->getUserIP() ;
+	    if(!$id && $this->_creator_ip) $data["creator_ip"] = $this->getUserIP() ;
 	    if($this->_modifier_id) $data["modifier_ip"] = $this->getUserIP() ; 
 		
 	    
 	    //set user id
-	    if($id || $this->_creator_id) $data["creator_id"] = $this->session->userdata('id') ;
+	    if(!$id && $this->_creator_id) $data["creator_id"] = $this->session->userdata('id') ;
 	    if($this->_modifier_id) $data["modifier_id"] = $this->session->userdata('id') ;
 	     
 	    
