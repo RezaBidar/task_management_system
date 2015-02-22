@@ -42,7 +42,10 @@ class m_who_is_where extends MY_Model{
         $group_list_object = $this->get();
         $group_list = array() ;
         foreach($group_list_object as $key => $group){
-            $group_list[$group->wiw_group_id] = $group->grp_name ;
+            $group_list[$group->wiw_group_id] = array(
+                'group_name' => $group->grp_name ,
+                'wiw_id' => $group->wiw_id ,   
+            ) ;
         }
         return $group_list ;
     }

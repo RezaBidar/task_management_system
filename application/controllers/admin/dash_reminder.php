@@ -20,7 +20,7 @@ class dash_reminder extends Admin_Controller{
                 "label" => "نوع" ,
                 "rules" => "required|xss_clean|trim"
             ) ,
-            "start_date" => array(
+            "start_time" => array(
                 "field" => "start_time" ,
                 "label" => "تاریخ شروع" ,
                 "rules" => "required|xss_clean|trim"
@@ -46,7 +46,7 @@ class dash_reminder extends Admin_Controller{
         if($this->form_validation->run() == TRUE){
             $data = array(
                 'type' => $this->input->post('type') ,
-                'start_time' => date('Y-m-d H:i:s') ,
+                'start_time' => convertMyJalaliToGregorian($this->input->post('start_time')) ,
                 'duration' => $this->input->post('duration') ,
                 'title' => $this->input->post('title') ,
                 'text' => $this->input->post('text') ,

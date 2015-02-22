@@ -16,8 +16,8 @@ echo btform::form_select('نوع', 'type', array(
                                              '3' => 'ماهانه'
                                                             ) , '' , 'class="form-control"') ;
 
-echo btform::form_input('تاریخ شروع' , array('name' => 'start_time' , 'class' => 'form-control hasDatepicker' , 'id' => 'datepicker3' )) ;
-echo btform::form_input('مدت زمان ' , array('name' => 'duration' , 'class' => 'form-control' )) ;
+echo btform::form_input('تاریخ شروع' , array('name' => 'start_time' , 'class' => 'form-control datepicker' )) ;
+echo btform::form_input('مدت زمان به ساعت' , array('name' => 'duration' , 'class' => 'form-control'  , 'type' => 'number' , 'min' => '1' , 'max' => '23' , 'step' => '1' )) ;
 echo btform::form_input('موضوع' , array('name' => 'title' , 'class' => 'form-control' )) ;
 echo btform::form_textarea("متن" , array("name" => "text" , "class" => "form-control" ));
 echo btform::form_submit(array("name"=>"submit" , "class"=>"btn btn-primary" ) , "ذخیره");
