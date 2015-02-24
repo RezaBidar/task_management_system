@@ -24,14 +24,13 @@ class Login extends MY_Controller {
 		$rules = $this->m_user->rule;
 		$this->form_validation->set_rules($rules);
 		
-		echo $_SERVER['HTTP_REFERER'] ;
 		if($this->form_validation->run() == TRUE){
 		    
 			if($this->m_user->login()){
 			   // if(true || preg_match("/^(". site_url("admin") .").*/", $_SERVER['HTTP_REFERER'])) echo $_SERVER['HTTP_REFERER'] ;
-			     redirect('admin/dashboard');
+			     redirect('admin/dashboard/overview');
 			}
-			echo $this->db->last_query();
+			//echo $this->db->last_query();
 		}
 		
 		var_dump($this->session->userdata);

@@ -58,5 +58,56 @@ $config['admin_menu'] = array(
                  "icon" =>"glyphicon glyphicon-bullhorn" ,
                  "active" =>FALSE) ,
          )
-    ) 
+    ),
+	"انتقادات و پیشنهادات" => array("address" => "admin/dash_comment/add_comment" ,
+			"icon" =>"glyphicon glyphicon-comment" ,
+			"active" =>FALSE ,
+			"submenu" => array(
+					"ارسال نظر" => array("address" => "admin/dash_comment/add_comment" ,
+							"icon" =>"glyphicon glyphicon-comment" ,
+							"active" =>FALSE) ,
+					"مشاهده نظرات" => array("address" => "admin/dash_comment/view_comment" ,
+							"icon" =>"glyphicon glyphicon-comment" ,
+							"active" =>FALSE) ,
+			)
+	)
+   );
+
+
+$config["admin_menu"] = array(
+    "خانه" => array("address" => "admin/dashboard/overview" ,
+         "icon" =>"glyphicon glyphicon-home" ,
+         "active" =>FALSE) ,
+    "وظیفه" => array("address" => "admin/dashboard" ,
+         "icon" =>"glyphicon glyphicon-tasks" ,
+         "active" =>FALSE ,
+         "submenu" => array(
+            "اضافه کردن وظیفه" => array("address" => "admin/dash_task/add_task" ,
+                "icon" =>"glyphicon glyphicon-plus-sign" ,
+                "active" =>FALSE) ,
+             "لیست وظایف ایجاد شده" => array("address" => "admin/dash_task/task_list" ,
+                 "icon" =>"glyphicon glyphicon-check" ,
+                 "active" =>FALSE) ,
+         )) ,
+    "یادآوری" => array("address" => "admin/dashboard" ,
+         "icon" =>"glyphicon glyphicon-bullhorn" ,
+         "active" =>FALSE ,
+         "submenu" => array(
+             "اضافه کردن یادآوری" => array("address" => "admin/dash_reminder/add_reminder" ,
+                 "icon" =>"glyphicon glyphicon-plus-sign" ,
+                 "active" =>FALSE) ,
+             "انتصاب یاداوری به شخص" => array("address" => "admin/dash_reminder/add_noted" ,
+                 "icon" =>"glyphicon glyphicon-hand-left" ,
+                 "active" =>FALSE) ,
+         )
+    ),
+	"انتقادات و پیشنهادات" => array("address" => "admin/dash_comment/add_comment" ,
+			"icon" =>"glyphicon glyphicon-comment" ,
+			"active" =>FALSE ,
+			"submenu" => array(
+					"ارسال نظر" => array("address" => "admin/dash_comment/add_comment" ,
+							"icon" =>"glyphicon glyphicon-send" ,
+							"active" =>FALSE) ,
+			)
+	)
    );

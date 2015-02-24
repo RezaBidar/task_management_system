@@ -1,3 +1,13 @@
+nbproject
+._*
+.~lock.*
+.buildpath
+.idea
+.project
+.settings
+composer.lock
+vendor/bin
+
 .DS_Store
 
 application/cache/*
@@ -7,3 +17,4 @@ application/cache/*
 application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
+

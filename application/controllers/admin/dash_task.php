@@ -97,6 +97,7 @@ class dash_task extends Admin_Controller{
         
         $this->data["title"] = "اضافه کردن وظیفه" ;
         $group_list = $this->m_group->get() ;
+        $this->data["group_list"][""] = "" ;
         foreach ($group_list as $key => $val){
             $this->data["group_list"][$val->grp_id] = $val->grp_name ;
         }
