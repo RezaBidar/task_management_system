@@ -59,7 +59,6 @@ class m_reminder extends MY_Model{
         }else {
             $reminder_end_time[3] = $reminder_end_time[3] + $duration ;
         }
-        
         //age time shoroo az alan bishtar bashe .. ke albate in etefagh rokh nemide chon moghe query zadan lahaz shode
         if($this->greaterTime($reminder_start_time , $now)) return  FALSE ; 
         

@@ -81,7 +81,6 @@ class dash_reminder extends Admin_Controller{
         }else {
             $this->data["reminder_id"] = $reminder_id ;
             $this->data["master_id"] = $this->m_who_is_where->getWiwId($this->session->userdata('id') , $group_id);
-            echo " ' " . $this->data["master_id"] ." ' ";
             $this->data["membered"] = $this->m_user->getUserByNoted($reminder_id , $this->data["master_id"] , 'member') ;
             $this->data["not_membered"] = $this->m_user->getUserByNoted($reminder_id , $this->data["master_id"]) ;
             $this->data["add_url"] = base_url('admin/dash_reminder/add_to_noted/');

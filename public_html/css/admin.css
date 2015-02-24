@@ -8,3 +8,23 @@
     border-color: #00ffff;
     color: #351fb6;
 }
+
+.panel-reminder {
+    border-color: #f7b3ec;
+}
+
+.panel-reminder > .panel-heading {
+    color: #7d354f;
+    background-color: #fcd6f5;
+    border-color: #f7b3ec;
+}
+
+.btn-taskview {
+    color: #FFF;
+    background-color: #d636d6;
+    border-color: #b32fb3;
+}
+
+.btn-taskview:hover{
+	color: #800080;
+}

@@ -4,7 +4,19 @@ $(document).ready(function(){
 	$(".datatable").dataTable( {
 		"info" : false ,
 		"paging" : true ,
-		"filter" :false
+		"filter" :false ,
+		language: {
+	        processing:     "در حال پردازش ...",
+	        loadingRecords: "بار گذاری اطلاعات ...",
+	        emptyTable:     "اطلاعاتی برای نمایش وجود ندارد",
+	        lengthMenu:    "تعداد ردیف _MENU_",
+	        paginate: {
+	            first:      "اولین",
+	            previous:   "قبلی",
+	            next:       "بعدی",
+	            last:       "آخرین"
+	        },
+	    }
 	});
 	
 	$("#user_list").multiselect();

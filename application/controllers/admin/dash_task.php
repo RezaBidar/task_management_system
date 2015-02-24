@@ -65,7 +65,7 @@ class dash_task extends Admin_Controller{
            
             $data = array(
                 'group_id' => $this->input->post('group_id') ,
-                'priority' => $this->input->post('pariority') ,
+                'priority' => $this->input->post('priority') ,
                 'start_time' => convertMyJalaliToGregorian($this->input->post('start_time')) ,
                 'due_time' => convertMyJalaliToGregorian($this->input->post('due_time')) , //next year
                 'warning_date' => $this->input->post('warning_date') ,
@@ -385,7 +385,7 @@ class dash_task extends Admin_Controller{
         
             $this->db->trans_complete();
             
-            redirect('admin/dash_task/task_list');
+            redirect('admin/dash_task/my_created_task/' . $this->m_task->getTaskGroupId($task_id));
         }
         
         $employee_list_object = $this->m_duty->getUserByTaskId($task_id);
@@ -518,5 +518,66 @@ class dash_task extends Admin_Controller{
     	foreach ($users as $key => $user){
     		echo '<li>' . $user->usr_fname . ' ' . $user->usr_lname . ' -- ' . jdate('H:i:s  Y/m/d' ,strtotime($user->wds_time)) . '</li>' ; 
     	}
+    }
+    
+    /**
+     * liste taskha ro mide
+     * @param int $group_id
+     */
+    public function my_tasks($group_id){
+        $this->data["title"] = "لیست وظایفی که باید انجام دهم" ;
+        $task_object_list = $this->m_duty->getAllUserDuty($this->data["user_id"] , $group_id);
+        $data = array();
+        foreach ($task_object_list as $key => $task_object){
+            $data[$key] = (object) array(
+                'tsk_id' => $task_object->tsk_id ,
+                'title' => $task_object->tsk_title ,
+                'description' => excerpts($task_object->tsk_description),
+                'start_time' => jdate('Y-m-d H:i:s' , strtotime($task_object->tsk_start_time)),
+                'due_time' => jdate('Y-m-d H:i:s' , strtotime($task_object->tsk_due_time)),
+                'creator' => $this->m_user->getUserFullName($task_object->tsk_creator_id),
+                'priority' => ($task_object->tsk_priority == 0)? 'normal' : 'important' ,
+                'status' => ($task_object->tsk_status == 1)? 'on process' : 'not started' ,
+            );
+        }
+        $this->data["table"] = $this->m_task->getTableTask($data , NULL , NULL , "admin/dash_task/task_list/" . $group_id) ;
+        
+        $this->load->view('admin/components/header');
+        $this->load->view('admin/components/navbar' , $this->data);
+        $this->load->view('admin/show_list', $this->data);
+        $this->load->view('admin/components/footer');
+        
+        
+    }
+    
+    
+    /**
+     * liste taskhaii ke karbar ijad karde va ghaedatan be onvane nazer mibashad
+     * @param int $group_id
+     */
+    public function my_created_task($group_id){
+        $this->data["title"] = "لیست وظایفی که من ایجاد کردم" ;
+        $this->data["add_url"] = site_url('admin/dash_task/add_task');
+        $task_object_list = $this->m_task->getAllUserCreatedTask($this->data["user_id"] , $group_id);
+        $data = array();
+        foreach ($task_object_list as $key => $task_object){
+            $data[$key] = (object) array(
+                'tsk_id' => $task_object->tsk_id ,
+                'title' => $task_object->tsk_title ,
+                'description' => excerpts($task_object->tsk_description),
+                'start_time' => jdate('Y-m-d H:i:s' , strtotime($task_object->tsk_start_time)),
+                'due_time' => jdate('Y-m-d H:i:s' , strtotime($task_object->tsk_due_time)),
+                'creator' => $this->m_user->getUserFullName($task_object->tsk_creator_id),
+                'priority' => ($task_object->tsk_priority == 0)? 'normal' : 'important' ,
+                'status' => ($task_object->tsk_status == 1)? 'on process' : 'not started' ,
+            );
+        }
+        $this->data["table"] = $this->m_task->getTableTask($data , NULL , NULL , "admin/dash_task/task_list/" . $group_id) ;
+        
+        $this->load->view('admin/components/header');
+        $this->load->view('admin/components/navbar' , $this->data);
+        $this->load->view('admin/show_list', $this->data);
+        $this->load->view('admin/components/footer');
+        
     }
 }

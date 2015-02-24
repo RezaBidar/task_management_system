@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <div id="page-wrapper">
 <div class="container col-md-10 col-lg-10 col-sm-10">
-<h1><span class="glyphicon glyphicon-send"></span> <?php if(isset($title)) echo $title; else echo "بدون عنوان"?></h1>
+<h3><span class="glyphicon glyphicon-send"></span> <?php if(isset($title)) echo $title; else echo "بدون عنوان"?></h3>
 <br>
 
 <?php if(isset($add_url) && $add_url != NULL):?>

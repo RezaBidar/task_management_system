@@ -58,6 +58,42 @@ class m_task extends MY_Model{
         return $this->get();
         
     }
+    
+    public function getTableTask($data ,$update_url = NULL , $delete_url = NULL , $select_url = NULL){
+        $table = new My_Table() ;
+    
+        $thead = array(
+            'عنوان',
+            'شرح',
+            'تاریخ شروع',
+            'مهلت انجام',
+            'ناظر',
+            'مهم/عادی',
+            'وضیعیت'
+            
+        );
+        $tbody = array(
+            'title' ,
+            'description',
+            'start_time' ,
+            'due_time',
+            'creator' ,
+            'priority' ,
+            'status'
+        );
+    
+        $where = array(
+            "creator_id" => $this->session->userdata('id'),
+        );
+    
+    
+        return $table->getView($thead, $tbody, $this->_primary_key, $data , $update_url, $delete_url , $select_url );
+    }
+    
+    public function getTaskGroupId($task_id){
+        
+        return $this->get($task_id)->tsk_group_id;
+    }
 }
 
 ?>

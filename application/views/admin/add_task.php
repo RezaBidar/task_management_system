@@ -2,7 +2,7 @@
 <div id="page-wrapper">
 <div class="container col-md-10 col-lg-10 col-sm-10">
 <br>
-<h1><span class="glyphicon glyphicon-plus-sign"></span> <?php if(isset($title)) echo $title; else echo "بدون عنوان"?></h1>
+<h3><span class="glyphicon glyphicon-plus-sign"></span> <?php if(isset($title)) echo $title; else echo "اضافه کردن وظیفه"?></h3>
 <br>
 
 <?php 
