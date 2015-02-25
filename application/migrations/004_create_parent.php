@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_Create_Parent extends CI_Migration {
+class Migration_create_parent extends CI_Migration {
 
     public function up()
     {

@@ -28,6 +28,8 @@ $(document).ready(function(){
 	});
 
 	$("#add_to_btn").click(function(){
+		var loading = '<div id="overlay"><div class="sk-spinner sk-spinner-rotating-plane"></div></div> ' ;
+		$(loading).prependTo('body');
 		//bootbox.alert($( "#not_membered option:selected" ).val()) ;
 		if($("#not_membered option:selected").length){
 			var first_param = $("input[name=first_param]").val();
@@ -43,6 +45,8 @@ $(document).ready(function(){
 	});
 	
 	$("#remove_from_btn").click(function(){
+		var loading = '<div id="overlay"><div class="sk-spinner sk-spinner-rotating-plane"></div></div> ' ;
+		$(loading).prependTo('body');
 		if($("#membered option:selected").length){
 			var first_param = $("input[name=first_param]").val();
 			var user_id = $( "#membered option:selected" ).val() ;
@@ -82,6 +86,9 @@ $(document).ready(function(){
 		}else bootbox.alert("khalie") ;
 	});
 	
+	$(function () {
+		  $('[data-toggle="tooltip"]').tooltip() ;
+	});
 	
 	$("#group_list").change(function(){
 		

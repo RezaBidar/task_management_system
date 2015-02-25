@@ -82,9 +82,6 @@ class m_task extends MY_Model{
             'status'
         );
     
-        $where = array(
-            "creator_id" => $this->session->userdata('id'),
-        );
     
     
         return $table->getView($thead, $tbody, $this->_primary_key, $data , $update_url, $delete_url , $select_url );

@@ -5,6 +5,10 @@
 <div class="container col-md-10 col-lg-10 col-sm-10">
 <br>
 <h3><span class="glyphicon glyphicon-floppy-saved"></span> <?php if(isset($title)) echo $title; else echo "بدون عنوان"?></h3>
+<?php if(isset($message_info)):?>
+<div class="alert alert-info"><?php echo $message_info?></div>
+<?php endif;?>
+
 <br>
 
 <?php 
@@ -12,6 +16,7 @@ echo btform::form_open();
 
 
 echo btform::form_select('وضعیت وظیفه', 'status', array(
+    '' => '',
     '0' => 'انجام نشد' ,
     '1' => 'انجام شد' ) , '' , 'class="form-control"') ;
 echo btform::form_input('تاریخ پایان' , array('name' => 'end_time' , 'class' => 'form-control datepicker')) ;

@@ -45,7 +45,13 @@
                                 <p>وظایف مربوط به من در حال انجام : <?php echo $group_status["my_on_process_duty"]?></p>
                                 <p>وظایف ساخته ی من در حال انجام : <?php echo $group_status["created_on_process_task"]?></p>
                                 <p>وظایف ساخته من پیگیری نشده : <?php echo $group_status["created_not_started_task"]?></p>
-                                <p><a href="<?php echo site_url('admin/dash_task/my_created_task/' . $group_id)?>" class="btn btn-taskview" role="button">وظایف زیردسته ها</a>&nbsp;<a href="<?php echo site_url('admin/dash_task/my_tasks/' . $group_id)?>" class="btn btn-taskview" role="button">وظایف من</a></p>
+                                <p>
+                                    <a href="<?php echo site_url('admin/dash_task/my_created_task/' . $group_id)?>" class="btn btn-taskview" role="button" data-toggle="tooltip" data-placement="bottom" 
+                                    title="لیست وظایفی که شما برای دیگران ایجاد کردید" 
+                                    >وظایف زیردسته ها</a>&nbsp;<a href="<?php echo site_url('admin/dash_task/my_tasks/' . $group_id)?>" class="btn btn-taskview" role="button" data-toggle="tooltip" data-placement="bottom" 
+                                    title="لیست وظایفی که شما باید انجام دهید" 
+                                    >وظایف من</a>
+                                </p>
                               </div>
                             </div>
                           </div>

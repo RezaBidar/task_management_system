@@ -10,7 +10,7 @@ class Admin_Controller extends MY_Controller {
 		!$this->m_user->loggedin() && redirect('login');
 		
 		// load menu for admin panel
-		$this->data["menu"] = config_item("admin_menu");
+		$this->data["menu"] = ($this->session->userdata('admin'))?config_item("admin_menu"):config_item("user_menu");
 		$this->data["base_url"] = base_url() ;
 		$this->data["user_id"] = $this->session->userdata('id') ;
 		$this->data["user_fullname"] = $this->session->userdata('fname') . " " . $this->session->userdata('lname') ;

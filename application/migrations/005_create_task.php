@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_Create_Task extends CI_Migration {
+class Migration_create_task extends CI_Migration {
 
     public function up()
     {
@@ -15,7 +15,7 @@ class Migration_Create_Task extends CI_Migration {
             {$prefix}_description TEXT NULL ,
             {$prefix}_priority INT(4) NOT NULL ,
             {$prefix}_warning_date INT(4) DEFAULT 0 ,
-            {$prefix}_status INT(4) DEFAULT 1 ,
+            {$prefix}_status INT(4) DEFAULT 0 ,
             {$prefix}_status_changer INT(14) UNSIGNED NULL ,
             {$prefix}_start_time DATETIME NOT NULL ,
             {$prefix}_due_time DATETIME NOT NULL ,

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_Create_Who_is_where extends CI_Migration {
+class Migration_create_who_is_where extends CI_Migration {
 
     public function up()
     {

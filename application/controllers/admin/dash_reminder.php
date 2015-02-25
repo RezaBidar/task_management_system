@@ -58,7 +58,8 @@ class dash_reminder extends Admin_Controller{
         
             $this->m_reminder->save($data);
             //             redirect('admin/dashboard');
-            echo $this->db->last_query();
+            //echo $this->db->last_query();
+            $this->data["message"] = 'یاداوری با موفقیت ایجاد شد' ;
         }
         
         $this->data["title"] = "اضافه کردن یادآوری" ;
@@ -71,14 +72,17 @@ class dash_reminder extends Admin_Controller{
     
     public function add_noted($reminder_id = NULL , $group_id = NULL){
         $view = NULL ;
-        
+        $this->data["title"] = "انتصاب یاداوری به شخص" ;
         if($reminder_id == NULL){
             $this->data["table"] = $this->m_reminder->getTable(NULL , NULL , "admin/dash_reminder/add_noted");
+            $this->data["message_info"] = 'لطفا از لیست یاداوری ها یاداوری مورد نظر را انتخاب کنید';
             $view = 'show_list' ;
         }elseif($group_id == NULL){
-            $this->data["table"] = $this->m_group->getTable(NULL , NULL , "admin/dash_reminder/add_noted/" . $reminder_id);
+            $this->data["table"] = $this->m_group->getUserTable($this->data["user_id"] , NULL , NULL , "admin/dash_reminder/add_noted/" . $reminder_id);
+            $this->data["message_info"] = 'لطفا گروه مربوطه را انتخاب کنید و در مرحله بعد اشخاص مورد نظر را انتخاب کنید';
             $view = 'show_list' ;
         }else {
+            $this->data["message_info"] = "در این قسمت می توانید یاداوری مربوطه را به اشخاصی که در سیستم زیر مجموعه شما  و در گروه {$this->m_group->getGroupName($group_id)} عضو می باشند را انتصاب دهید و یا  از یاداوری حذف کنید ";
             $this->data["reminder_id"] = $reminder_id ;
             $this->data["master_id"] = $this->m_who_is_where->getWiwId($this->session->userdata('id') , $group_id);
             $this->data["membered"] = $this->m_user->getUserByNoted($reminder_id , $this->data["master_id"] , 'member') ;
@@ -147,5 +151,6 @@ class dash_reminder extends Admin_Controller{
         $this->load->view('admin/components/footer');
         
     }
+    
     
 }

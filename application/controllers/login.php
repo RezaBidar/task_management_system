@@ -17,7 +17,7 @@ class Login extends MY_Controller {
 	 * index page of login
 	 */
 	public function index(){
-		
+		//echo md5("pnetms" . config_item('encryption_key')) ;
 		$this->load->model('m_user');
 		
 		$this->m_user->loggedin() && $this->m_user->logout();
@@ -33,7 +33,7 @@ class Login extends MY_Controller {
 			//echo $this->db->last_query();
 		}
 		
-		var_dump($this->session->userdata);
+		//var_dump($this->session->userdata);
 		$this->load->view('login');
 		
 	}

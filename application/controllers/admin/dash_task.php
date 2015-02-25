@@ -73,7 +73,7 @@ class dash_task extends Admin_Controller{
                 'description' => $this->input->post('description') ,
                
             );
-        
+            
             //remove empty indexes  .. in faghat vase insert estefade mishavad va shayad dar ayande asan hazfesh kardam :D
             foreach ($data as $key => $val) if(strlen($val) == 0) unset($data[$key]) ;
         
@@ -90,13 +90,11 @@ class dash_task extends Admin_Controller{
             }
             
             $this->db->trans_complete();
-//             redirect('admin/dashboard');
-//             echo $this->db->last_query();
-            echo "sabt shod" ;
+            $this->data["message"] = 'وظیفه با موفقیت ایجاد شد' ;
         }
         
         $this->data["title"] = "اضافه کردن وظیفه" ;
-        $group_list = $this->m_group->get() ;
+        $group_list = $this->m_group->getUserGroup($this->data["user_id"]) ;
         $this->data["group_list"][""] = "" ;
         foreach ($group_list as $key => $val){
             $this->data["group_list"][$val->grp_id] = $val->grp_name ;
@@ -132,14 +130,17 @@ class dash_task extends Admin_Controller{
      * @param int $group_id
      */
     public function task_list($group_id = NULL , $task_id = NULL){
+        $this->data["title"] = 'وظایف ایجاد شده توسط شما' ;
         if($group_id == NULL){
-            $this->data["table"] = $this->m_group->getTable(NULL , NULL , "admin/dash_task/task_list");
+            $this->data["table"] = $this->m_group->getUserTable($this->data["user_id"] , NULL , NULL , "admin/dash_task/task_list");
+            $this->data["message_info"] = "لطفا گروه مورد نظر را انتخاب کنید" ;
             $view = 'show_list' ;
         }else if($task_id == NULL) {
             $this->data["table"] = $this->m_task->getTableByGroup($group_id , NULL , NULL , "admin/dash_task/task_list/" . $group_id);
+            $this->data["message_info"] = "در این قسمت وظیفه های مربوط به گروه {$this->m_group->getGroupName($group_id)} را مشاهده میکنید که توسط شما ایجاد شده" ;
             $view = 'show_list' ;
         }else{
-            
+            $this->data["title"] = 'مشاهده وظیفه' ;
             $message_object = $this->m_feedback->getMessage($task_id);
             $this->data["message"] = array();
             foreach ($message_object as $key => $object)
@@ -537,8 +538,8 @@ class dash_task extends Admin_Controller{
                 'start_time' => jdate('Y-m-d H:i:s' , strtotime($task_object->tsk_start_time)),
                 'due_time' => jdate('Y-m-d H:i:s' , strtotime($task_object->tsk_due_time)),
                 'creator' => $this->m_user->getUserFullName($task_object->tsk_creator_id),
-                'priority' => ($task_object->tsk_priority == 0)? 'normal' : 'important' ,
-                'status' => ($task_object->tsk_status == 1)? 'on process' : 'not started' ,
+                'priority' => ($task_object->tsk_priority == 0)? '<span class="label label-info">عادی</span>' : '<span class="label label-danger">فوری</span>' ,
+                'status' => ($task_object->tsk_status == 1)? '<span class="label label-warning">در حال پیگیری</span>' : '<span class="label label-default">عدم پیگیری</span>' ,
             );
         }
         $this->data["table"] = $this->m_task->getTableTask($data , NULL , NULL , "admin/dash_task/task_list/" . $group_id) ;
@@ -569,8 +570,8 @@ class dash_task extends Admin_Controller{
                 'start_time' => jdate('Y-m-d H:i:s' , strtotime($task_object->tsk_start_time)),
                 'due_time' => jdate('Y-m-d H:i:s' , strtotime($task_object->tsk_due_time)),
                 'creator' => $this->m_user->getUserFullName($task_object->tsk_creator_id),
-                'priority' => ($task_object->tsk_priority == 0)? 'normal' : 'important' ,
-                'status' => ($task_object->tsk_status == 1)? 'on process' : 'not started' ,
+                'priority' => ($task_object->tsk_priority == 0)? '<span class="label label-info">عادی</span>' : '<span class="label label-danger">فوری</span>' ,
+                'status' => ($task_object->tsk_status == 1)? '<span class="label label-warning">در حال پیگیری</span>' : '<span class="label label-default">عدم پیگیری</span>' ,
             );
         }
         $this->data["table"] = $this->m_task->getTableTask($data , NULL , NULL , "admin/dash_task/task_list/" . $group_id) ;

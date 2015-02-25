@@ -74,7 +74,7 @@ $config['admin_menu'] = array(
    );
 
 
-$config["admin_menu"] = array(
+$config["user_menu"] = array(
     "خانه" => array("address" => "admin/dashboard/overview" ,
          "icon" =>"glyphicon glyphicon-home" ,
          "active" =>FALSE) ,

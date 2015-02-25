@@ -1,5 +1,5 @@
 <?php
-class Migrate extends CI_Controller{
+class migrate extends CI_Controller{
     function index(){
         $this->load->library('migration');
         
