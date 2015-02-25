@@ -433,11 +433,12 @@ class dash_task extends Admin_Controller{
         
         );
         $this->form_validation->set_rules($rule);
+        
         if($this->form_validation->run() == TRUE){
-            
+            $duty_score = $this->input->post("duty_score") ;    
             $data = array(
                 'end_time' => convertMyJalaliToGregorian($this->input->post('end_time')) ,
-                'rate' => $this->input->post("duty_score")[$duty_id] ,
+                'rate' => $duty_score[$duty_id] ,
             );
             $this->m_duty->save($data , $this->input->post('duty_id')) ;
             
