@@ -23,6 +23,7 @@
     color: #FFF;
     background-color: #d636d6;
     border-color: #b32fb3;
+	margin-bottom : 4px ;
 }
 
 .btn-taskview:hover{
@@ -77,11 +78,11 @@
 }
 
 #overlay {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
     background: #fc030a;
     opacity: 0.9;
     filter: alpha(opacity=90);

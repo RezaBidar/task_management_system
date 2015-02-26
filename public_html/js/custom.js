@@ -28,10 +28,11 @@ $(document).ready(function(){
 	});
 
 	$("#add_to_btn").click(function(){
-		var loading = '<div id="overlay"><div class="sk-spinner sk-spinner-rotating-plane"></div></div> ' ;
-		$(loading).prependTo('body');
+		
 		//bootbox.alert($( "#not_membered option:selected" ).val()) ;
 		if($("#not_membered option:selected").length){
+			var loading = '<div id="overlay"><div class="sk-spinner sk-spinner-rotating-plane"></div></div> ' ;
+			$(loading).prependTo('body');
 			var first_param = $("input[name=first_param]").val();
 			var user_id = $( "#not_membered option:selected" ).val() ;
 			var add_url = $("input[name=add_url]").val();
@@ -45,9 +46,10 @@ $(document).ready(function(){
 	});
 	
 	$("#remove_from_btn").click(function(){
-		var loading = '<div id="overlay"><div class="sk-spinner sk-spinner-rotating-plane"></div></div> ' ;
-		$(loading).prependTo('body');
+		
 		if($("#membered option:selected").length){
+			var loading = '<div id="overlay"><div class="sk-spinner sk-spinner-rotating-plane"></div></div> ' ;
+			$(loading).prependTo('body');
 			var first_param = $("input[name=first_param]").val();
 			var user_id = $( "#membered option:selected" ).val() ;
 			var remove_url = $("input[name=remove_url]").val();
@@ -61,10 +63,13 @@ $(document).ready(function(){
 	});
 	
 	$("#add_feedback").click(function(){
+		
 		var text = $.trim($('#feedback_text').val()) ;
 		var type = 0 ;
 		if($("#feedback_warning").is(':checked')) type = 1 ;
 		if(text.length > 0){
+			var loading = '<div id="overlay"><div class="sk-spinner sk-spinner-rotating-plane"></div></div> ' ;
+			$(loading).prependTo('body');
 			var url = $("input[name=addfeedback_url]").val();
 			var wiw_id = $("input[name=wiw_id]").val();
 			var task_id = $("input[name=task_id]").val();
@@ -120,6 +125,8 @@ $(document).ready(function(){
 	});
 	
 	$("#changetaskstatus").click(function(){
+		var loading = '<div id="overlay"><div class="sk-spinner sk-spinner-rotating-plane"></div></div> ' ;
+		$(loading).prependTo('body');
 		var url = $("input[name=changestatus_url]").val();
 		$.ajax({
 			url : url ,
