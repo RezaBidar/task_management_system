@@ -23,7 +23,7 @@
                             </div>
                             <div id="collapse<?php echo $reminder_id?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<?php echo $reminder_id?>">
                               <div class="panel-body">
-                                <?php echo $reminder["text"]?>
+                                <?php echo nl2br($reminder["text"])?>
                               </div>
                             </div>
                           </div>

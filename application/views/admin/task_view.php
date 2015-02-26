@@ -27,7 +27,7 @@ echo form_hidden("task_id" , $task_id) ;
     </div>
     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
       <div class="panel-body">
-      <?php echo $task["description"]?>
+      <?php echo nl2br($task["description"])?>
       </div>
     </div>
   </div>
@@ -58,7 +58,7 @@ echo form_hidden("task_id" , $task_id) ;
                                                     </small>
                                                 
                                                 <div class="media-body" >
-                                                        <p class="alert <?php echo ($feedback["warning"]) ? "alert-danger" : "alert-message"?>"><?php echo $feedback["text"]?></p>
+                                                        <p class="alert <?php echo ($feedback["warning"]) ? "alert-danger" : "alert-message"?>"><?php echo nl2br($feedback["text"])?></p>
                                                    
                                                     <hr />
                                                 </div>
