@@ -41,10 +41,10 @@
                             <div class="thumbnail">
                               <div class="caption">
                                 <h3><?php echo $group_status["group_name"]?></h3>
-                                <p>وظایف مربوط به من پیگیری نشده : <?php echo $group_status["my_not_started_duty"]?></p>
-                                <p>وظایف مربوط به من در حال انجام : <?php echo $group_status["my_on_process_duty"]?></p>
-                                <p>وظایف ساخته ی من در حال انجام : <?php echo $group_status["created_on_process_task"]?></p>
-                                <p>وظایف ساخته من پیگیری نشده : <?php echo $group_status["created_not_started_task"]?></p>
+                                <p>وظایف من پیگیری نشده : <span class="badge"><?php echo $group_status["my_not_started_duty"]?></span></p>
+                                <p>وظایف من در حال پیگیری : <span class="badge"><?php echo $group_status["my_on_process_duty"]?></span></p>
+                                <p>وظایف زیردسته ها در حال پیگیری : <span class="badge"><?php echo $group_status["created_on_process_task"]?></span></p>
+                                <p>وظایف زیردسته ها پیگیری نشده : <span class="badge"><?php echo $group_status["created_not_started_task"]?></span></p>
                                 <p>
                                     <a href="<?php echo site_url('admin/dash_task/my_created_task/' . $group_id)?>" class="btn btn-taskview" role="button" data-toggle="tooltip" data-placement="bottom" 
                                     title="لیست وظایفی که شما برای دیگران ایجاد کردید" 

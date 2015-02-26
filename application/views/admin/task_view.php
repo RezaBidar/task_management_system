@@ -85,10 +85,17 @@ echo form_hidden("task_id" , $task_id) ;
     <div class="col-md-4">
         <div class="panel <?php echo ($task["status"] == 1)? 'panel-warning' : 'panel-info' ?>">
             <div class="panel-heading">
-                وضعیت
+                مشخصات وظیفه
             </div>
             <div class="panel-body">
-                <p>نوع وظیفه : مهم</p>
+                
+                <p>تاریخ شروع : <?php echo $task["start_time"]?></p>
+                <p>مهلت انجام : <?php echo $task["due_time"]?></p>
+                <?php if($task["priority"] != 0):?>
+                <p>نوع وظیفه: <span class="label label-info">عادی</span></p>
+                <?php else :?>
+                <p>نوع وظیفه: <span class="label label-danger">مهم</span></p>
+                <?php endif;?>
                 
                 
                 <?php if($task["status_changer"] != NULL):?>
@@ -96,10 +103,10 @@ echo form_hidden("task_id" , $task_id) ;
                 <?php endif;?>
                 
                 <?php if($task["status"] == 1):?>
-                <p>وضعیت انجام کار: در حال انجام</p>
+                <p>وضعیت انجام کار: <span class="label label-warning">در حال پیگیری</span></p>
                 <?php else: ?>
-                <p>وضعیت انجام کار: عدم پیگیری</p>
-                <button class="btn btn-warning" type="button" id="changetaskstatus">در حال به حالت پیگیری</button>
+                <p>وضعیت انجام کار: <span class="label label-default">عدم پیگیری</span></p>
+                <button class="btn btn-warning" type="button" id="changetaskstatus">تغییر به حالت پیگیری</button>
                 <?php endif;?>
             </div>
         </div>
