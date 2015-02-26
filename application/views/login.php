@@ -47,10 +47,18 @@
 <body>
 
     <div class="container">
- 	<?php echo validation_errors()?>
+ 	
         <div class="row">
+        
             <div class="col-md-4 col-md-offset-4">
+                        <?php if(validation_errors() || (isset($error))):?>
+                        <div class="alert alert-warning" style="margin-top:5px;">
+                            <?php echo validation_errors()?>
+                            <p><?php echo (isset($error['wrong_user'])) ? $error['wrong_user'] : '' ?></p>
+                        </div>
+                        <?php endif;?>
                 <div class="login-panel panel panel-default">
+                
                     <div class="panel-heading">
                         <h3 class="panel-title">فرم ورود</h3>
                     </div>
@@ -72,6 +80,7 @@
                                 <input type="submit" class="btn btn-lg btn-success btn-block" value="لوگین" />
                             </fieldset>
                         </form>
+                        
                     </div>
                 </div>
             </div>
