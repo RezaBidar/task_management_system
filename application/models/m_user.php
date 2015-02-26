@@ -8,12 +8,12 @@ class m_user extends MY_Model{
     public $rule = array (
         'username' => array (
             'field' => 'username',
-            'label' => 'username',
+            'label' => 'نام کاربری',
             'rules' => 'trim|required'
         ),
         'password' => array (
             'field' => 'password',
-            'label' => 'password',
+            'label' => 'کلمه عبور',
             'rules' => 'trim|required'
         )
     );
@@ -40,8 +40,9 @@ class m_user extends MY_Model{
         
         $user = $this->get_by($where,true);
         
-        $is_admin = ($user->usr_type == 10)? TRUE : FALSE ; //10 is admin 
+        
         if(count($user)){
+            $is_admin = ($user->usr_type == 10)? TRUE : FALSE ; //10 is admin
             $session_data = array(
                 "fname" => $user->usr_fname,
                 "lname"	=> $user->usr_lname,
@@ -51,7 +52,7 @@ class m_user extends MY_Model{
                 "loged_in" => TRUE
             );
             $this->session->set_userdata($session_data);
-            
+                
             //inja bayad last_login update shavad dar ayande
             //...
             
