@@ -58,7 +58,12 @@ echo form_hidden("task_id" , $task_id) ;
                                                     </small>
                                                 
                                                 <div class="media-body" >
-                                                        <p class="alert <?php echo ($feedback["warning"]) ? "alert-danger" : "alert-message"?>"><?php echo nl2br($feedback["text"])?></p>
+                                                    <?php if($feedback['wiw_id'] == $master_wiw_id):?>
+                                                            <p class="alert <?php echo ($feedback["warning"]) ? "alert-danger" : "alert-warning"?>"><?php echo nl2br($feedback["text"])?></p>
+                                                    <?php else :?>
+                                                            <p class="alert <?php echo ($feedback["warning"]) ? "alert-danger" : "alert-message"?>"><?php echo nl2br($feedback["text"])?></p>
+                                                    <?php endif;?>  
+                                                            
                                                    
                                                     <hr />
                                                 </div>

@@ -150,6 +150,7 @@ class dash_task extends Admin_Controller{
                     'time' => $object->fbk_created_time ,
                     'avatar' => $object->usr_avatar ,
                     'warning' => ($object->fbk_type == 0) ? FALSE : TRUE ,
+                    'wiw_id' => $object->wiw_id ,
                 );
             
             $not_seen_message_object = $this->m_feedback->getNotSeenMessage($task_id);
