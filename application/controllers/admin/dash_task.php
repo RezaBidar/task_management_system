@@ -539,7 +539,7 @@ class dash_task extends Admin_Controller{
                 'start_time' => jdate('Y-m-d H:i:s' , strtotime($task_object->tsk_start_time)),
                 'due_time' => jdate('Y-m-d H:i:s' , strtotime($task_object->tsk_due_time)),
                 'creator' => $this->m_user->getUserFullName($task_object->tsk_creator_id),
-                'priority' => ($task_object->tsk_priority == 0)? '<span class="label label-info">عادی</span>' : '<span class="label label-danger">فوری</span>' ,
+                'priority' => ($task_object->tsk_priority == 0)? '<span class="label label-info">عادی</span>' : '<span class="label label-danger">مهم</span>' ,
                 'status' => ($task_object->tsk_status == 1)? '<span class="label label-warning">در حال پیگیری</span>' : '<span class="label label-default">عدم پیگیری</span>' ,
             );
         }

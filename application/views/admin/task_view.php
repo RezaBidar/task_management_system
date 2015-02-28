@@ -91,7 +91,7 @@ echo form_hidden("task_id" , $task_id) ;
                 
                 <p>تاریخ شروع : <?php echo $task["start_time"]?></p>
                 <p>مهلت انجام : <?php echo $task["due_time"]?></p>
-                <?php if($task["priority"] != 0):?>
+                <?php if($task["priority"] == 0):?>
                 <p>نوع وظیفه: <span class="label label-info">عادی</span></p>
                 <?php else :?>
                 <p>نوع وظیفه: <span class="label label-danger">مهم</span></p>
