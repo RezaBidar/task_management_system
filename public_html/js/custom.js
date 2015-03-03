@@ -5,6 +5,7 @@ $(document).ready(function(){
 		"info" : false ,
 		"paging" : true ,
 		"filter" :false ,
+		"scrollX": true ,
 		language: {
 	        processing:     "در حال پردازش ...",
 	        loadingRecords: "بار گذاری اطلاعات ...",
