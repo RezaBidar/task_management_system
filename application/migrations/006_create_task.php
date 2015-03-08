@@ -12,7 +12,8 @@ class Migration_create_task extends CI_Migration {
             CREATE TABLE {$table_name} (
             {$prefix}_id INT(14) UNSIGNED NOT NULL AUTO_INCREMENT ,
             {$prefix}_title VARCHAR(100) NOT NULL ,
-            {$prefix}_description TEXT NULL ,
+            {$prefix}_description_id INT(14) UNSIGNED NOT NULL ,
+            {$prefix}_end_report TEXT NULL ,
             {$prefix}_priority INT(4) NOT NULL ,
             {$prefix}_warning_date INT(4) DEFAULT 0 ,
             {$prefix}_status INT(4) DEFAULT 0 ,
@@ -21,6 +22,7 @@ class Migration_create_task extends CI_Migration {
             {$prefix}_due_time DATETIME NOT NULL ,
             {$prefix}_end_time DATETIME NULL ,
             {$prefix}_group_id INT(14) UNSIGNED NOT NULL ,
+            {$prefix}_sup_task_id INT(14) UNSIGNED NULL ,
             {$prefix}_creator_id INT(14) UNSIGNED NOT NULL ,
             {$prefix}_creator_ip VARCHAR(15) NOT NULL ,
             {$prefix}_created_time DATETIME NOT NULL ,

@@ -30,6 +30,7 @@ class Migration_create_user extends CI_Migration {
             {$prefix}_modifier_id INT(14) UNSIGNED NULL ,
             {$prefix}_modifier_ip VARCHAR(15) NOT NULL ,
             {$prefix}_modified_time DATETIME NOT NULL ,
+            CONSTRAINT user_unq UNIQUE ({$prefix}_username) ,
             CONSTRAINT user_pk PRIMARY KEY ({$prefix}_id) ,
             CONSTRAINT user_fk_user_creator FOREIGN KEY ({$prefix}_creator_id) REFERENCES {$this->db->dbprefix("user")} ({$prefix}_id) ON DELETE RESTRICT ON UPDATE CASCADE ,
             CONSTRAINT user_fk_user_modifier FOREIGN KEY ({$prefix}_modifier_id) REFERENCES {$this->db->dbprefix("user")} ({$prefix}_id) ON DELETE RESTRICT ON UPDATE CASCADE  
@@ -38,6 +39,26 @@ class Migration_create_user extends CI_Migration {
             DEFAULT COLLATE = utf8_unicode_ci
             ;"
         );
+        
+        $this->db->where('usr_username','admin');
+        
+        $admin = $this->db->get('user')->row();
+        if(sizeof($admin) == 0){
+            $data = array(
+                'usr_fname' => "مدیر",
+                'usr_lname' => "سیستم",
+                'usr_username' => "admin",
+                'usr_type' => 10 ,
+                'usr_password' => md5("pnetms" . config_item('encryption_key')) ,
+                'usr_employee_id' => "1" ,
+                'usr_creator_ip' => "1" ,
+                'usr_created_time' => date('Y-m-d H:i:s') ,
+                'usr_modifier_ip' => "1" ,
+                'usr_modified_time' => date('Y-m-d H:i:s') ,
+            );
+            $this->db->insert('user' , $data) ;
+        }
+        
     }
 
     public function down()
