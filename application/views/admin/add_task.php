@@ -23,6 +23,9 @@ echo btform::form_select('کی انجام بده', 'employee_prt_id[]', array() 
 echo btform::form_select('درجه اهمیت', 'priority', array(
                                              '0' => 'معمولی' ,
                                              '1' => 'مهم' ) , '' , 'class="form-control"') ;
+echo btform::form_select('نوع وظیف', 'type_of_creation', array(
+                                             '0' => 'تکی' ,
+                                             '1' => 'تکرارشونده' ) , '' , 'class="form-control"') ;
 
 echo btform::form_input('تاریخ شروع' , array('name' => 'start_time' , 'class' => 'form-control datepicker')) ;
 echo btform::form_input('موعد پایان' , array('name' => 'due_time' , 'class' => 'form-control datepicker')) ;

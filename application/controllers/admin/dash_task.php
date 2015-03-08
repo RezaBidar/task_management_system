@@ -70,7 +70,6 @@ class dash_task extends Admin_Controller{
                 'due_time' => convertMyJalaliToGregorian($this->input->post('due_time')) , //next year
                 'warning_date' => $this->input->post('warning_date') ,
                 'title' => $this->input->post('title') ,
-                'description' => $this->input->post('description') ,
                
             );
             
