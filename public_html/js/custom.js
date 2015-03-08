@@ -31,13 +31,19 @@ $(document).ready(function(){
 		
 		//bootbox.alert($( "#not_membered option:selected" ).val()) ;
 		if($("#not_membered option:selected").length){
+			
+			var type_param= "" ;
+			if($("select[name=type]").length > 0)
+				type_param = "/" + $("select[name=type]").val();
+			
 			var loading = '<div id="overlay"><div class="sk-spinner sk-spinner-rotating-plane"></div></div> ' ;
 			$(loading).prependTo('body');
+			
 			var first_param = $("input[name=first_param]").val();
 			var user_id = $( "#not_membered option:selected" ).val() ;
 			var add_url = $("input[name=add_url]").val();
 			$.ajax({
-				url : add_url + "/" + first_param + "/" + user_id,
+				url : add_url + "/" + first_param + "/" + user_id + type_param,
 				success : function(result){
 					location.reload();
 				}

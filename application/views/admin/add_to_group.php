@@ -32,7 +32,12 @@
     <select name="not_membered" id="not_membered" class="form-control  admin_multi_select" multiple>
     <?php foreach ($not_membered as $key => $val) echo "<option value='{$key}'>{$val["name"]} - {$val["employee_id"]} </option>" ;?>
     </select>
-    
+    <?php echo btform::form_select('نوع ', 'type', array(
+                                                        '0' => 'کارمند' ,
+                                                        '5' => 'مدیر' ,
+                                                        '10' => 'مدیر کل' ,
+                                                    ), '' , 'class="form-control"');
+    ?>
     <div class="form-group">
         <button class="btn btn-success" id="add_to_btn">اضافه کردن</button>
     </div>
