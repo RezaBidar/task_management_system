@@ -15,6 +15,7 @@ class Migration_create_task extends CI_Migration {
             {$prefix}_description_id INT(14) UNSIGNED NOT NULL ,
             {$prefix}_end_report TEXT NULL ,
             {$prefix}_priority INT(4) NOT NULL ,
+            {$prefix}_private_level INT(4) DEFAULT 0 ,
             {$prefix}_warning_date INT(4) DEFAULT 0 ,
             {$prefix}_status INT(4) DEFAULT 0 ,
             {$prefix}_status_changer INT(14) UNSIGNED NULL ,
