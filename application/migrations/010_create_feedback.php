@@ -14,7 +14,7 @@ class Migration_create_feedback extends CI_Migration {
             {$prefix}_text TEXT NOT NULL ,
             {$prefix}_send_time DATETIME NULL ,
             {$prefix}_type INT(4) DEFAULT 0 ,
-            {$prefix}_task_id INT(14) UNSIGNED NOT NULL ,
+            {$prefix}_task_id INT(14) UNSIGNED NULL ,
             {$prefix}_wiw_id INT(14) UNSIGNED NOT NULL ,
             {$prefix}_creator_id INT(14) UNSIGNED NOT NULL ,
             {$prefix}_creator_ip VARCHAR(15) NOT NULL ,

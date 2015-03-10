@@ -67,16 +67,72 @@ class dash_task extends Admin_Controller{
                 'group_id' => $this->input->post('group_id') ,
                 'priority' => $this->input->post('priority') ,
                 'start_time' => convertMyJalaliToGregorian($this->input->post('start_time')) ,
-                'due_time' => convertMyJalaliToGregorian($this->input->post('due_time')) , //next year
+                'due_time' => convertMyJalaliToGregorian($this->input->post('due_time')) , 
                 'warning_date' => $this->input->post('warning_date') ,
                 'title' => $this->input->post('title') ,
-               
             );
+            
+            $type_of_creation = $this->input->post('type_of_creation');
+            
+            $description = array(
+                            'text' => $this->input->post('description') ,
+                            'wiw_id' => $this->m_who_is_where->getWiwId($this->data["user_id"] , $this->input->post('group_id')) ,
+                            'type' => 2 ,  //description type
+                        );
             
             //remove empty indexes  .. in faghat vase insert estefade mishavad va shayad dar ayande asan hazfesh kardam :D
             foreach ($data as $key => $val) if(strlen($val) == 0) unset($data[$key]) ;
-        
+            $tasks = array();
+            
+            switch ($type_of_creation){
+                case '0' ://taki
+                    array_push($tasks , $data);
+                    break ;
+                case '1' ://haftegi
+                    $days = array();
+                    $start = new DateTime(convertMyJalaliToGregorian($this->input->post('start_time') ));
+                    $end = new DateTime(convertMyJalaliToGregorian($this->input->post('due_time') ));
+                    $weekday = $this->input->post('weekday');
+                    $interval = DateInterval::createFromDateString('1 day');
+                    $period = new DatePeriod($start, $interval, $end);
+                    foreach ($period as $dt){
+                        if ($dt->format("N") == $weekday ){
+                            $data["start_time"] = $dt->format("Y-m-d H:i:s") ;
+                            $data["due_time"] = date("Y-m-d H:i:s" , strtotime($dt->format("Y-m-d H:i:s"))  + $this->input->post('weekly_limit_day') * 24 * 60 * 60 ) ;
+                            array_push($tasks, $data);
+                        }
+                    }
+                    var_dump($tasks);
+                    break;
+                case '2' ://mahiane
+                    echo $this->input->post('monthly_limit_day') ."<br>";
+                    $days = array();
+                    $start = new DateTime(convertMyJalaliToGregorian($this->input->post('start_time') ));
+                    $end = new DateTime(convertMyJalaliToGregorian($this->input->post('due_time') ));
+                    $interval = DateInterval::createFromDateString('1 day');
+                    $period = new DatePeriod($start, $interval, $end);
+                    echo $this->input->post('day') . "<br>" ;
+                    foreach ($period as $dt){
+                       
+                        if (intval(jdate("d" ,strtotime($dt->format("Y-m-d")) ,'','Asia/Tehran','en')) == intval($this->input->post('day')) ){
+                            $data["start_time"] = $dt->format("Y-m-d H:i:s") ;
+                            $data["due_time"] = date("Y-m-d H:i:s" , strtotime($dt->format("Y-m-d H:i:s"))  + $this->input->post('monthly_limit_day') * 24 * 60 * 60 ) ;
+                            array_push($tasks, $data);
+                        }
+                    }
+                    var_dump($tasks);
+                    return ;
+                    break;
+                default :
+                    die("default")  ;
+                    break;
+            }
+            
             $this->db->trans_start();
+            
+            $description_id = $this->m_feedback->save($description) ;
+            $data["description_id"] = $description_id ;
+            
             $task_id = $this->m_task->save($data);
             
             foreach ($this->input->post('employee_prt_id') as $parent_id){

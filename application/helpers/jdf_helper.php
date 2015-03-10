@@ -607,13 +607,16 @@ function jalali_to_gregorian($j_y,$j_m,$j_d,$mod=''){
  * va yek tarikhe gregorian ba formatii ke beshe to table zakhire kard barmigardoone
  * jalali(YYYY-m-d HH-mm-ss) to gregorian(YYYY-m-d HH-mm-ss)
  * @param string $datetime
+ * @param bool $with_time // time included or excluded
  */
-function convertMyJalaliToGregorian($datetime){
+function convertMyJalaliToGregorian($datetime , $with_time = TRUE){
     $ex = explode(" ", $datetime) ;
     $date = $ex[0] ;
     $time = $ex[1] ;
     $date = explode("-", $date) ;
     $gregorian =  jalali_to_gregorian(intval($date[0]), intval($date[1]), intval($date[2])) ;
-    return $gregorian[0] . "-" . $gregorian[1] . "-" . $gregorian[2] . " " . $time ; 
+    $answer = $gregorian[0] . "-" . $gregorian[1] . "-" . $gregorian[2] ;
+    if($with_time) $answer .= " " . $time ;
+    return  $answer ;
 }
 

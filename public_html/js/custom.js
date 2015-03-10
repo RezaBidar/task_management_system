@@ -106,8 +106,9 @@ $(document).ready(function(){
 		var users_url =  $("input[name=users_url]").val() + '/' + $("#group_list option:selected").val();
 		$("#user_list").multiselect('destroy');
 		$("#user_list").html('') ;
+		$("#user_list").multiselect();
 		$.getJSON( users_url  , function( data ) {
-			
+			$("#user_list").multiselect('destroy');
 //			bootbox.alert(data.toString()) ;
 //			  var items = [];
 			$.each( data, function( key, val ) {
@@ -166,6 +167,28 @@ $(document).ready(function(){
 				
 			}
 		});
+	});
+	
+	$("select[name=type_of_creation]").change(function(){
+		
+		var type = $("select[name=type_of_creation] option:selected").val() ;
+		
+		switch(type){
+		case '0' :
+			$('#monthly').css('display','none');
+			$('#weekly').css('display','none');
+			break;
+		case '1' :
+			$('#monthly').css('display','none');
+			$('#weekly').css('display','block');
+			break;
+		case '2' :
+			$('#monthly').css('display','block');
+			$('#weekly').css('display','none');
+			break;
+		default :
+			bootbox.alert(type) ;
+		}
 	});
 
 });
