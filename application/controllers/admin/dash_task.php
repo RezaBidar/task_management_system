@@ -16,7 +16,6 @@ class dash_task extends Admin_Controller{
     
     
     public function add_task(){
-        
         $rule = array(
             "group_id" => array(
                 "field" => "group_id" ,
@@ -102,10 +101,8 @@ class dash_task extends Admin_Controller{
                             array_push($tasks, $data);
                         }
                     }
-                    var_dump($tasks);
                     break;
                 case '2' ://mahiane
-                    echo $this->input->post('monthly_limit_day') ."<br>";
                     $days = array();
                     $start = new DateTime(convertMyJalaliToGregorian($this->input->post('start_time') ));
                     $end = new DateTime(convertMyJalaliToGregorian($this->input->post('due_time') ));
@@ -120,8 +117,6 @@ class dash_task extends Admin_Controller{
                             array_push($tasks, $data);
                         }
                     }
-                    var_dump($tasks);
-                    return ;
                     break;
                 default :
                     die("default")  ;
@@ -131,18 +126,20 @@ class dash_task extends Admin_Controller{
             $this->db->trans_start();
             
             $description_id = $this->m_feedback->save($description) ;
-            $data["description_id"] = $description_id ;
             
-            $task_id = $this->m_task->save($data);
-            
-            foreach ($this->input->post('employee_prt_id') as $parent_id){
-                $data = array(
-                    'parent_child_id' => $parent_id ,
-                    'task_id' => $task_id ,
-                    'start_time' => $data["start_time"]
-                );
-                $this->m_duty->save($data) ;
+            foreach($tasks as $task){
+                    $task["description_id"] = $description_id ;
+                    $task_id = $this->m_task->save($task);
+                    foreach ($this->input->post('employee_prt_id') as $parent_id){
+                        $data = array(
+                            'parent_child_id' => $parent_id ,
+                            'task_id' => $task_id ,
+                            'start_time' => $task["start_time"]
+                        );
+                        $this->m_duty->save($data) ;
+                    }
             }
+            
             
             $this->db->trans_complete();
             $this->data["message"] = 'وظیفه با موفقیت ایجاد شد' ;
