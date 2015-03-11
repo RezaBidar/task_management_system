@@ -11,16 +11,19 @@ class m_task extends MY_Model{
     protected $_modifier_id = TRUE ;
     protected $_modifier_ip = TRUE ;
     
+    public function get($id=NULL,$single=NULL){
+        $this->db->join('feedback' , 'fbk_id = tsk_description_id');
+        return parent::get($id,$single);
+    }
+    
     public function getTable($update_url = NULL , $delete_url = NULL , $select_url = NULL){
         $table = new My_Table() ;
     
         $thead = array(
             'عنوان',
-            'متن',
         );
         $tbody = array(
             'tsk_title' ,
-            'tsk_description'
         );
     
         $where = array(
@@ -64,7 +67,6 @@ class m_task extends MY_Model{
     
         $thead = array(
             'عنوان',
-            'شرح',
             'تاریخ شروع',
             'مهلت انجام',
             'ناظر',
@@ -74,7 +76,6 @@ class m_task extends MY_Model{
         );
         $tbody = array(
             'title' ,
-            'description',
             'start_time' ,
             'due_time',
             'creator' ,
@@ -91,6 +92,8 @@ class m_task extends MY_Model{
         
         return $this->get($task_id)->tsk_group_id;
     }
+    
+    
 }
 
 ?>

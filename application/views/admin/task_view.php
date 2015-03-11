@@ -155,7 +155,7 @@ foreach ($employee_list as $id => $employee):?>
                                                 <div class="media-body" >
                                                     <h5><?php echo $employee["name"]?>
                                                     <?php if($wiw_id == $master_wiw_id):?> 
-                                                    	 <a href="<?php echo site_url("admin/dash_task/end_duty/{$group_id}/{$task_id}/" . $employee["duty_id"] )?>" class="btn btn-danger btn-xs glyphicon glyphicon-remove" title="حذف"></a>
+                                                    	 <a href="<?php echo site_url("admin/dash_task/end_duty/" . $employee["duty_id"] )?>" class="btn btn-danger btn-xs glyphicon glyphicon-remove" title="حذف"></a>
                                                    	<?php endif;?>
                                                     </h5>
                                                     <?php if($employee["last_activity"]):?>

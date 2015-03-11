@@ -1,5 +1,5 @@
 <?php 
-class dash_task extends Admin_Controller{
+class dash_task_old extends Admin_Controller{
     
     public function __construct(){
         parent::__construct() ;
@@ -177,7 +177,171 @@ class dash_task extends Admin_Controller{
         echo json_encode($answer) ;
     }
     
+    /**
+     * didane taskhaii ke ijad shode
+     * @param int $group_id
+     */
+    public function task_list($group_id = NULL , $task_id = NULL){
+        $this->data["title"] = 'وظایف ایجاد شده توسط شما' ;
+        if($group_id == NULL){
+            $this->data["table"] = $this->m_group->getUserTable($this->data["user_id"] , NULL , NULL , "admin/dash_task/task_list");
+            $this->data["message_info"] = "لطفا گروه مورد نظر را انتخاب کنید" ;
+            $view = 'show_list' ;
+        }else if($task_id == NULL) {
+            $this->data["table"] = $this->m_task->getTableByGroup($group_id , NULL , NULL , "admin/dash_task/task_list/" . $group_id);
+            $this->data["message_info"] = "در این قسمت وظیفه های مربوط به گروه {$this->m_group->getGroupName($group_id)} را مشاهده میکنید که توسط شما ایجاد شده" ;
+            $view = 'show_list' ;
+        }else{
+            $this->data["title"] = 'مشاهده وظیفه' ;
+            $message_object = $this->m_feedback->getMessage($task_id);
+            $this->data["message"] = array();
+            foreach ($message_object as $key => $object)
+                $this->data["message"][$object->fbk_id] = array(
+                    'text' => $object->fbk_text ,
+                    'name' => $object->usr_fname . " " . $object->usr_lname ,
+                    'time' => $object->fbk_created_time ,
+                    'avatar' => $object->usr_avatar ,
+                    'warning' => ($object->fbk_type == 0) ? FALSE : TRUE ,
+                    'wiw_id' => $object->wiw_id ,
+                );
+            
+            $not_seen_message_object = $this->m_feedback->getNotSeenMessage($task_id);
+            $rows = array() ;
+            $now = date('Y-m-d H:i:s');
+            foreach ($not_seen_message_object as $key => $object){
+                $data = array(
+                    'feedback_id' => $object->fbk_id ,
+                    'user_id' => $this->data["user_id"] ,
+                    'time' => $now ,
+                );
+                array_push($rows , $data) ;   
+            }
+            if(sizeof($rows) > 0){
+                $this->m_who_did_see->insert_batch($rows) ;
+            }
+            
+            $employee_list_object = $this->m_duty->getUserByTaskId($task_id);
+            $this->data["employee_list"] = array() ;
+            foreach ($employee_list_object as $key => $object)
+                $this->data["employee_list"][$object->usr_id] = array(
+                    'name' => $object->usr_fname . " " . $object->usr_lname ,
+                    'avatar' => $object->usr_avatar ,
+                    'duty_id' => $object->dty_id ,
+                	'last_activity' => $object->usr_last_login ,
+                );
+            
+            
+            
+            $task_object = $this->m_task->get_by(array('id' => $task_id) , TRUE);
+            $this->data["task"] = array(
+                    'id' => $task_object->tsk_id ,
+                    'title' => $task_object->tsk_title ,
+                    'description' => $task_object->fbk_text ,
+                    'status' => $task_object->tsk_status ,
+                    'status_changer' => $this->m_user->getUserFullName($task_object->tsk_status_changer) ,
+                    'priority' => $task_object->tsk_priority ,
+                    'due_time' => jdate('H:i:s  Y/m/d' ,strtotime($task_object->tsk_due_time)) ,
+                    'start_time' => jdate('H:i:s  Y/m/d' ,strtotime($task_object->tsk_start_time)),
+            		'creator_id' => $task_object->tsk_creator_id ,   
+            );
+            $view = 'task_view' ;
+            
+            $this->data["addfeedback_url"] = site_url('admin/dash_task/add_feedback');
+            $this->data["changestatus_url"] = site_url('admin/dash_task/change_status');
+            $this->data["whodidsee_url"] = site_url('admin/dash_task/who_did_see');
+            
+            $this->data["wiw_id"] = $this->m_who_is_where->getWiwId($this->data["user_id"] , $group_id) ;
+            $this->data["master_wiw_id"] = $this->m_who_is_where->getWiwId($this->data["task"]["creator_id"] , $group_id) ;
+            
+            
+            $master_object = $this->m_user->get($this->data["task"]["creator_id"]) ;
+            $this->data["master"] = array(
+            		'name' => $master_object->usr_fname . " " . $master_object->usr_lname ,
+            		'avatar' => $master_object->usr_avatar ,
+            		'last_activity' => $master_object->usr_last_login ,
+            );
+            
+            
+            $this->data["task_id"] = $task_id ;
+            $this->data["group_id"] = $group_id ;
+        }
+        
+        //load views
+        $this->load->view('admin/components/header');
+        $this->load->view('admin/components/navbar' , $this->data);
+        $this->load->view('admin/' . $view , $this->data);
+        $this->load->view('admin/components/footer');
+    }
     
+    /**
+     * baraye ezafe kardane karbar be task
+     * @param string $task_id
+     * @param string $group_id
+     */
+    public function add_duty($task_id = NULL , $group_id = NULL){
+        $view = NULL ;
+    
+        if($task_id == NULL){
+            $this->data["table"] = $this->m_task->getTable(NULL , NULL , "admin/dash_task/add_duty");
+            $view = 'show_list' ;
+        }elseif($group_id == NULL){
+            $this->data["table"] = $this->m_group->getTable(NULL , NULL , "admin/dash_task/add_duty/" . $task_id);
+            $view = 'show_list' ;
+        }else {
+            $this->data["task_id"] = $task_id ;
+            $this->data["master_id"] = $this->m_who_is_where->getWiwId($this->session->userdata('id') , $group_id);
+            $this->data["membered"] = $this->m_user->getUserByDuty($task_id , $this->data["master_id"] , 'member') ;
+            $this->data["not_membered"] = $this->m_user->getUserByDuty($task_id , $this->data["master_id"]) ;
+            $this->data["add_url"] = base_url('admin/dash_task/add_to_duty/');
+            $this->data["remove_url"] = base_url('admin/dash_task/delete_from_duty/');
+            $view = 'add_duty' ;
+        }
+    
+    
+        //load views
+        $this->load->view('admin/components/header');
+        $this->load->view('admin/components/navbar' , $this->data);
+        $this->load->view('admin/' . $view , $this->data);
+        $this->load->view('admin/components/footer');
+    }
+    
+    /**
+     * 
+     * @param unknown $task_id
+     * @param unknown $parent_id
+     */
+    public function delete_from_duty($task_id , $parent_id){
+    
+        $where = array(
+            'parent_child_id' => $parent_id ,
+            'task_id' => $task_id
+        );
+        $row = $this->m_duty->get_by($where , TRUE) ;
+    
+        if(!is_object($row)) return ;
+    
+        if($this->m_duty->delete($row->dty_id)){
+            echo "deleted" ;
+        }else{
+            echo "not deleted" ;
+        }
+    
+    }
+    
+    /**
+     * 
+     * @param unknown $task_id
+     * @param unknown $parent_id
+     */
+    public function add_to_duty($task_id , $parent_id){
+    
+        $data = array(
+            'parent_child_id' => $parent_id ,
+            'task_id' => $task_id
+        );
+        $insert_id = $this->m_duty->save($data) ;
+        echo $insert_id ;
+    }
     
     /**
      * show my tasks ,,, task haii ke be in karbar elsagh shode ast
@@ -220,12 +384,21 @@ class dash_task extends Admin_Controller{
         $this->m_feedback->save($data) ;
     }
     
+    /**
+     * ijade task baraye khod
+     */
+    public function add_my_task(){
+        
+    }
     
+    /**
+     * task haii ke afrade zirmajmooe ijad kardand va niaz be taiid darad
+     */
+    public function need_accept_task(){
+        
+    }
     
     public function end_task($task_id){
-        $this->db->where('tsk_end_time IS NULL' , NULL , FALSE) ;
-        $duty = $this->m_task->get($task_id);
-        if(sizeof($duty) == 0) die('incorrect');
         $rule = array(
             "status" => array(
                 "field" => "status" ,
@@ -292,11 +465,7 @@ class dash_task extends Admin_Controller{
      * @param unknown $task_id
      * @param unknown $duty_id
      */
-    public function end_duty($duty_id){
-        $this->db->where('dty_end_time IS NULL' , NULL , FALSE) ;
-        $duty = $this->m_duty->get($duty_id);
-        if(sizeof($duty) == 0) die('incorrect');
-        $task_id = $duty->dty_task_id;
+    public function end_duty($group_id , $task_id , $duty_id){
         
         $rule = array(
             "end_time" => array(
@@ -326,7 +495,7 @@ class dash_task extends Admin_Controller{
             );
             $this->m_duty->save($data , $this->input->post('duty_id')) ;
             
-            redirect('admin/dash_task/view_task/' . $task_id) ;
+            redirect('admin/dash_task/task_list/' . $group_id . '/' . $task_id) ;
         }
         
         $employee = $this->m_duty->getUserByDutyId($duty_id);
@@ -338,7 +507,15 @@ class dash_task extends Admin_Controller{
         $this->load->view('admin/remove_duty' , $this->data);
         $this->load->view('admin/components/footer');
     }
-   
+    
+    /**
+     * liste afradi ke in feedback ro didand + time didan
+     * @param int $feedback_id
+     */
+    public function who_seen_feedbak($feedback_id){
+        
+    }
+    
     /**
      * in tabe baraye ajax esteefade mishavad va felan status ra be halate peygiri taghir midahad ;)
      */
@@ -373,7 +550,7 @@ class dash_task extends Admin_Controller{
     	
     		$this->db->trans_complete();
     	
-    		redirect('admin/dash_task/view_task/' . $task_id);
+    		redirect('admin/dash_task/task_list/' . $task->tsk_group_id . '/' . $task_id);
     		
     	}
     	
