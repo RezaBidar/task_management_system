@@ -147,6 +147,7 @@ class m_duty extends MY_Model{
         $this->db->where('prt_end_date IS NULL' , NULL , FALSE);
         $this->db->where('dty_end_time IS NULL' , NULL , FALSE);
         $this->db->where('tsk_end_time IS NULL' , NULL , FALSE);
+        $this->db->where('tsk_start_time <=', date('Y-m-d H:i:s'));
         $this->db->where('tsk_status <' , 2);
         $this->db->where('wiw_user_id' , $user_id);
         if($group_id) $this->db->where('tsk_group_id' , $group_id) ;

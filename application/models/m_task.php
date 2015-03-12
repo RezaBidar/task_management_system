@@ -57,6 +57,7 @@ class m_task extends MY_Model{
         $this->db->where('tsk_creator_id' , $user_id);
         if($group_id) $this->db->where('tsk_group_id' , $group_id);
         $this->db->where('tsk_end_time IS NULL' , NULL , FALSE) ;
+        $this->db->where('tsk_start_time <=', date('Y-m-d H:i:s'));
         
         return $this->get();
         
