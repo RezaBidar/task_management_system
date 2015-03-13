@@ -16,6 +16,7 @@ class Migration_create_duty extends CI_Migration {
             {$prefix}_rate INT(4) DEFAULT 0 ,
             {$prefix}_task_id INT(14) UNSIGNED NOT NULL ,
             {$prefix}_parent_child_id INT(14) UNSIGNED NULL ,
+            {$prefix}_type INT(4) NOT NULL DEFAULT 0,
             {$prefix}_creator_id INT(14) UNSIGNED NOT NULL ,
             {$prefix}_creator_ip VARCHAR(15) NOT NULL ,
             {$prefix}_created_time DATETIME NOT NULL ,

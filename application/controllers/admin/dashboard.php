@@ -56,12 +56,16 @@ class dashboard extends Admin_Controller{
                 if($task_object->tsk_status == 1) $this->data["task_list"][$group_id]["my_on_process_duty"]++ ;
                 if($task_object->tsk_status == 0) $this->data["task_list"][$group_id]["my_not_started_duty"]++;
             }
-            
             $task_object_list = $this->m_task->getAllUserCreatedTask($this->data["user_id"] , $group_id);
             foreach ($task_object_list as $key => $task_object){
                 if($task_object->tsk_status == 1) $this->data["task_list"][$group_id]["created_on_process_task"]++ ;
                 if($task_object->tsk_status == 0) $this->data["task_list"][$group_id]["created_not_started_task"]++ ;
             }
+            
+            /*
+             * if haschild second part
+             * if is president third part
+             */
             
             
              

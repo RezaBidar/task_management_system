@@ -15,6 +15,7 @@ class Migration_create_parent extends CI_Migration {
             {$prefix}_employee_id INT(14) UNSIGNED NOT NULL ,
             {$prefix}_start_date DATETIME NOT NULL ,
             {$prefix}_end_date DATETIME NUlL ,
+            {$prefix}_type INT(4) NOT NULL DEFAULT 0,
             {$prefix}_creator_id INT(14) UNSIGNED NOT NULL ,
             {$prefix}_creator_ip VARCHAR(15) NOT NULL ,
             {$prefix}_created_time DATETIME NOT NULL ,

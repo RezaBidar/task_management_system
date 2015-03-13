@@ -29,6 +29,18 @@ class m_parent extends MY_Model{
         
        
     }
+    
+    /**
+     * check mikone in user daraye zir majmooe dar in grooh mibashad ya kheyr
+     * @param int $wiw_id
+     * @return boolean
+     */
+    public function hasChild($wiw_id){
+        $this->db->where('prt_master_id' , $wiw_id);
+        $employees = $this->get();
+        if(sizeof($employees) > 0) return TRUE ;
+        return FALSE ;
+    }
 }
 
 ?>

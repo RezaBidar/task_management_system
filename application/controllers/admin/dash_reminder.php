@@ -56,10 +56,11 @@ class dash_reminder extends Admin_Controller{
             //remove empty indexes  .. in faghat vase insert estefade mishavad va shayad dar ayande asan hazfesh kardam :D
             foreach ($data as $key => $val) if(strlen($val) == 0) unset($data[$key]) ;
         
-            $this->m_reminder->save($data);
-            //             redirect('admin/dashboard');
+            $reminder_id = $this->m_reminder->save($data);
+            
             //echo $this->db->last_query();
             $this->data["message"] = 'یاداوری با موفقیت ایجاد شد' ;
+            redirect('admin/dash_reminder/add_noted/' . $reminder_id);
         }
         
         $this->data["title"] = "اضافه کردن یادآوری" ;

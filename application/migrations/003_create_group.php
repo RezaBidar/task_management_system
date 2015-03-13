@@ -13,6 +13,7 @@ class Migration_create_group extends CI_Migration {
             {$prefix}_id INT(14) UNSIGNED NOT NULL AUTO_INCREMENT ,
             {$prefix}_name VARCHAR(100) NOT NULL ,
             {$prefix}_description TEXT NULL ,
+            {$prefix}_sup_group_id INT(14) UNSIGNED NULL ,
             {$prefix}_creator_id INT(14) UNSIGNED NOT NULL ,
             {$prefix}_creator_ip VARCHAR(15) NOT NULL ,
             {$prefix}_created_time DATETIME NOT NULL ,
@@ -20,6 +21,7 @@ class Migration_create_group extends CI_Migration {
             {$prefix}_modifier_ip VARCHAR(15) NOT NULL ,
             {$prefix}_modified_time DATETIME NOT NULL ,
             CONSTRAINT group_pk PRIMARY KEY ({$prefix}_id),
+            CONSTRAINT group_fk_super FOREIGN KEY ({$prefix}_sup_group_id) REFERENCES {$this->db->dbprefix("group")} (grp_id) ON DELETE RESTRICT ON UPDATE CASCADE ,
             CONSTRAINT group_fk_user_creator FOREIGN KEY ({$prefix}_creator_id) REFERENCES {$this->db->dbprefix("user")} (usr_id) ON DELETE RESTRICT ON UPDATE CASCADE ,
             CONSTRAINT group_fk_user_modifier FOREIGN KEY ({$prefix}_modifier_id) REFERENCES {$this->db->dbprefix("user")} (usr_id) ON DELETE RESTRICT ON UPDATE CASCADE    
             ) ENGINE=INNODB

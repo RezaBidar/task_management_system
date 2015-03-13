@@ -124,11 +124,12 @@ class dash_group extends Admin_Controller{
      * @param string $group_id
      * @param string $user_id
      */
-    public function add_to_group($group_id , $user_id){
+    public function add_to_group($group_id , $user_id , $type){
         $this->load->model('m_who_is_where');
         $data = array(
             'user_id' => $user_id ,
             'group_id' => $group_id ,
+            'type' => $type ,
             'start_date' => date('Y-m-d H:i:s')
         );
         $insert_id = $this->m_who_is_where->save($data) ;

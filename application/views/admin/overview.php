@@ -6,8 +6,61 @@
                 <div class="container col-md-10 col-lg-10 col-sm-10">
                     <h3 class="page-header">داشبورد</h3>
                     
-                    
-                    <div class="panel panel-default " style="padding: 4px">
+                     
+                     <div class="panel panel-default " style="padding: 4px">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading" style="margin-bottom: 5px">وظایف</div>
+                        <div class="row">
+                        <?php foreach ($task_list as $group_id => $group_status):?>
+                          <div class="col-sm-6 col-md-6">
+                            <div class="thumbnail">
+                            <h3 ><span class="glyphicon glyphicon-chevron-left" style="color: green;"></span> <?php echo $group_status["group_name"]?></h3>
+                              <div class="caption">
+                                <h4>وظایف شما</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button class="btn btn-default">در حال انجام : <span class="badge" style="background:#f97104;"><?php echo $group_status["my_on_process_duty"]?></span></button><br/>
+                                        <button class="btn btn-default">غیر فعال : <span class="badge" style="background:gray;"><?php echo $group_status["my_not_started_duty"]?></span></button><br/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="label label-info"><span class="badge"><?php echo tr_num(82,'fa')?></span> وظیفه دیده نشده</span>
+                                        <span class="label label-warning"><span class="badge"><?php echo tr_num(11,'fa')?></span> گزارش دیده نشده</span>
+                                        <span class="label label-danger"><span class="badge"><?php echo tr_num(5,'fa')?></span> اخطار دیده نشده</span>
+                                    </div>
+                                </div>    
+                                <h4>وظایف زیردستان</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button class="btn btn-default">در حال انجام : <span class="badge" style="background:#f97104;"><?php echo $group_status["created_on_process_task"]?></span></button>
+                                        <button class="btn btn-default">غیر فعال : <span class="badge" style="background:gray;"><?php echo $group_status["created_not_started_task"]?></span></button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="label label-info"><span class="badge"><?php echo tr_num(82,'fa')?></span> وظیفه دیده نشده</span>
+                                        <span class="label label-warning"><span class="badge"><?php echo tr_num(11,'fa')?></span> گزارش دیده نشده</span>
+                                        <span class="label label-danger"><span class="badge"><?php echo tr_num(5,'fa')?></span> اخطار دیده نشده</span>
+                                    </div>
+                                </div> 
+                                <h4>وظایف دنبال شده</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button class="btn btn-default">در حال انجام : <span class="badge" style="background:#f97104;"><?php echo $group_status["created_on_process_task"]?></span></button>
+                                        <button class="btn btn-default">غیر فعال : <span class="badge" style="background:gray;"><?php echo $group_status["created_not_started_task"]?></span></button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="label label-info"><span class="badge"><?php echo tr_num(82,'fa')?></span> وظیفه دیده نشده</span>
+                                        <span class="label label-warning"><span class="badge"><?php echo tr_num(11,'fa')?></span> گزارش دیده نشده</span>
+                                        <span class="label label-danger"><span class="badge"><?php echo tr_num(5,'fa')?></span> اخطار دیده نشده</span>
+                                    </div>
+                                </div> 
+                              </div>
+                            </div>
+                          </div>
+                       <?php endforeach;?>
+                        </div>
+                            
+                     </div>
+                     
+                     <div class="panel panel-default " style="padding: 4px">
                       <!-- Default panel contents -->
                       <div class="panel-heading" style="margin-bottom: 5px">یاداوری ها</div>
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -31,34 +84,6 @@
                         </div>
                      </div><!-- panel -->
                      
-                     
-                     <div class="panel panel-default " style="padding: 4px">
-                        <!-- Default panel contents -->
-                        <div class="panel-heading" style="margin-bottom: 5px">وظایف</div>
-                        <div class="row">
-                        <?php foreach ($task_list as $group_id => $group_status):?>
-                          <div class="col-sm-6 col-md-4">
-                            <div class="thumbnail">
-                              <div class="caption">
-                                <h3><?php echo $group_status["group_name"]?></h3>
-                                <p>وظایف من پیگیری نشده : <span class="badge"><?php echo $group_status["my_not_started_duty"]?></span></p>
-                                <p>وظایف من در حال پیگیری : <span class="badge"><?php echo $group_status["my_on_process_duty"]?></span></p>
-                                <p>وظایف زیردسته ها در حال پیگیری : <span class="badge"><?php echo $group_status["created_on_process_task"]?></span></p>
-                                <p>وظایف زیردسته ها پیگیری نشده : <span class="badge"><?php echo $group_status["created_not_started_task"]?></span></p>
-                                <p>
-                                    <a href="<?php echo site_url('admin/dash_task/my_created_task/' . $group_id)?>" class="btn btn-taskview" role="button" data-toggle="tooltip" data-placement="bottom" 
-                                    title="لیست وظایفی که شما برای دیگران ایجاد کردید" 
-                                    >وظایف زیردسته ها</a>&nbsp;<a href="<?php echo site_url('admin/dash_task/my_tasks/' . $group_id)?>" class="btn btn-taskview" role="button" data-toggle="tooltip" data-placement="bottom" 
-                                    title="لیست وظایفی که شما باید انجام دهید" 
-                                    >وظایف من</a>
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                       <?php endforeach;?>
-                        </div>
-                            
-                     </div>
                 </div>
                 <!-- /.col-lg-12 -->
         </div>
